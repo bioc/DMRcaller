@@ -414,7 +414,7 @@ computeDMRs <- function(methylationData1,
     overlaps <- countOverlaps(localContextMethylationData, computedDMRs)
     localContextMethylationDataDMRs <- localContextMethylationData[overlaps > 0]
     if(cores > 1){
-      computedDMRsList <- IRanges::splitAsList(computedDMRs,  rep(1:cores, length.out=length(computedDMRs)))
+      computedDMRsList <- S4Vectors::splitAsList(computedDMRs,  rep(1:cores, length.out=length(computedDMRs)))
       bufferComputedDMRsList <- parallel::mclapply(1:length(computedDMRsList), function(i){ 
         .analyseReadsInsideRegions(localContextMethylationDataDMRs, computedDMRsList[[i]])}, 
         mc.cores = cores)

@@ -934,7 +934,7 @@ computeDMRsReplicates <- function(methylationData,
 #' @author Nicolae Radu Zabet and Alessandro Pio Greco
 .analyseReadsInsideRegionsReplicates <- function(methylationData, regions, condition, m, n){
   overlaps <- findOverlaps(methylationData, regions, ignore.strand = TRUE)
-  methylationDataContextList <- IRanges::splitAsList(methylationData[queryHits(overlaps)],  subjectHits(overlaps))
+  methylationDataContextList <- S4Vectors::splitAsList(methylationData[queryHits(overlaps)],  subjectHits(overlaps))
   regionsIndexes <- as.integer(names(methylationDataContextList))
   # methylationDataContextList <-
   # regions <- methylationData[queryHits(findOverlaps(methylationData, DMRs))]
@@ -1081,8 +1081,8 @@ computeDMRsReplicates <- function(methylationData,
                              reduce(DMRsToJoin, min.gapwidth = minGap,
                                     ignore.strand=TRUE),
                              maxgap = minGap, ignore.strand = TRUE)
-    DMRsList <- IRanges::splitAsList(DMRsToJoin[queryHits(overlaps)],
-                                     subjectHits(overlaps))
+    DMRsList <- S4Vectors::splitAsList(DMRsToJoin[queryHits(overlaps)],
+                                       subjectHits(overlaps))
 
 
 

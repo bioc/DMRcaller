@@ -1,8 +1,8 @@
 Package: DMRcaller
 Type: Package
 Title: Differentially Methylated Regions caller
-Version: 1.17.0
-Date: 2019-01-18
+Version: 1.17.1
+Date: 2019-06-08
 Authors@R: c(person(given="Nicolae Radu", family="Zabet", role =
         c("aut","cre"), email = "n.r.zabet@gen.cam.ac.uk"),
         person(given="Jonathan", family="Tsang", role = "aut", email =
@@ -22,7 +22,7 @@ License: GPL-3
 LazyLoad: yes
 Imports: parallel, Rcpp, RcppRoll, betareg, grDevices, graphics, methods, stats,
         utils
-Depends: R (>= 3.5), GenomicRanges, IRanges, S4Vectors
+Depends: R (>= 3.5), GenomicRanges, IRanges, S4Vectors (>= 0.23.10)
 Suggests: knitr, RUnit, BiocGenerics
 biocViews: DifferentialMethylation, DNAMethylation, Software,
         Sequencing, Coverage

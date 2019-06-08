@@ -208,8 +208,8 @@
                              reduce(DMRs, min.gapwidth = minGap, 
                                     ignore.strand=TRUE), 
                              maxgap = minGap, ignore.strand = TRUE)
-    DMRsList <- IRanges::splitAsList(DMRs[queryHits(overlaps)],  
-                                     subjectHits(overlaps))
+    DMRsList <- S4Vectors::splitAsList(DMRs[queryHits(overlaps)],
+                                       subjectHits(overlaps))
     
     if(cores > 1){
       bufferDMRs <- parallel::mclapply(1:length(DMRsList), function(i){ .getLongestDMRs(DMRsList[[i]],
@@ -288,7 +288,7 @@
 .analyseReadsInsideRegions <- function(methylationData, regions){
   
   overlaps <- findOverlaps(methylationData, regions, ignore.strand = TRUE)
-  methylationDataContextList <- IRanges::splitAsList(methylationData[queryHits(overlaps)],  subjectHits(overlaps))
+  methylationDataContextList <- S4Vectors::splitAsList(methylationData[queryHits(overlaps)],  subjectHits(overlaps))
   regionsIndexes <- as.integer(names(methylationDataContextList))
   
   regions$sumReadsM1 <- rep(0, times=length(regions))
@@ -352,7 +352,7 @@
 .analyseReadsInsideRegionsForCondition <- function(regions, methylationData, label="", context=""){
   
   overlaps <- findOverlaps(methylationData, regions, ignore.strand = TRUE)
-  methylationDataContextList <- IRanges::splitAsList(methylationData[queryHits(overlaps)],  subjectHits(overlaps))
+  methylationDataContextList <- S4Vectors::splitAsList(methylationData[queryHits(overlaps)],  subjectHits(overlaps))
   regionsIndexes <- as.integer(names(methylationDataContextList))
   
   sumReadsM <- rep(0, times=length(regions))
@@ -567,7 +567,7 @@
 #' @author Radu Zabet
 .analyseReadsInsideRegionsOneSample <- function(methylationData, regions){
   overlaps <- findOverlaps(methylationData, regions, ignore.strand = TRUE)
-  methylationDataContextList <- IRanges::splitAsList(methylationData[queryHits(overlaps)],  subjectHits(overlaps))
+  methylationDataContextList <- S4Vectors::splitAsList(methylationData[queryHits(overlaps)],  subjectHits(overlaps))
   regionsIndexes <- as.integer(names(methylationDataContextList))
   
   regions$sumReadsM <- rep(0, times=length(regions))
