@@ -18,13 +18,13 @@ The \code{GRanges} elements contain six metadata columns
 \source{
 Each element was created by calling \code{bam} files with \code{\link{readONTbam}}
 function which in \code{\link{DMRcaller}} package.
-The sample pod5 files were from the nanopore dataset from 1000 genome project 
+The sample pod5 files were from the nanopore dataset from 1000 genome project
 \url{https://pmc.ncbi.nlm.nih.gov/articles/PMC10942501/}.
-\url{https://s3.amazonaws.com/1000g-ont/index.html?prefix=pod5_data/GM18501_R9/} 
+\url{https://s3.amazonaws.com/1000g-ont/index.html?prefix=pod5_data/GM18501_R9/}
 \code{.pod5} files in the case of GM18501 and
 \url{https://s3.amazonaws.com/1000g-ont/index.html?prefix=pod5_data/GM18876_R9/}
 \code{.pod5} files in the case of GM18876 cell line.
-For base-calling and alignment, run \code{dorado, ver.0.9.6} 
+For base-calling and alignment, run \code{dorado, ver.0.9.6}
 \url{https://github.com/nanoporetech/dorado?tab=readme-ov-file#dna-models}
 to generate the \code{bam} files with \code{dna_r10.4.1_e8.2_400bps_hac@v5.2.0} as basecalling model.
 }

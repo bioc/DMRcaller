@@ -89,7 +89,7 @@
 
   if(isColor){
     for(i in 1:length(x)){
-      if(!(x[i]%in%colors()) & length(grep("^#[0-9A-Fa-f]{6}$", x[i])) < 1){
+      if(!(x[i]%in% grDevices::colors()) & length(grep("^#[0-9A-Fa-f]{6}$", x[i])) < 1){
         isColor <- FALSE
       }
     }
@@ -330,9 +330,9 @@ getWholeChromosomes <- function(methylationData){
                 " Alternative needs to be one of the following \"two.sided\", \"greater\" or \"less\" for Fisher's exact test" )
 }
 
-#' Checks whether the passed parameter is the modified context 
+#' Checks whether the passed parameter is the modified context
 #'
-#' @title Validate modified context 
+#' @title Validate modified context
 #' @param test the  modified context used to call methylation information from bamfile must be one of
 #' sequence context for \code{selectCytosine()} (e.g. \code{"CG"}, \code{"CHG"}, \code{"CHH"})
 #' @keywords internal
@@ -345,14 +345,14 @@ getWholeChromosomes <- function(methylationData){
 
 #' @title Validate BAM Filename
 #' @description
-#' Checks that `bamfile` exists and has a “.bam” extension.
+#' Checks that `bamfile` exists and has a ".bam" extension.
 #'
 #' @param bamfile Character scalar. Path to a BAM file.
-#' @return Invisibly `TRUE` if file exists and extension is “.bam”; otherwise errors.
+#' @return Invisibly `TRUE` if file exists and extension is ".bam"; otherwise errors.
 #' @keywords internal
 #' @author Radu Zabet and Young Jun Kim
 .validateBamfile <- function(bamfile){
-  # stop if bamfile directory is not include the .bam file format  
+  # stop if bamfile directory is not include the .bam file format
   .stopIfNotAll(c(!is.null(bamfile),is.character(bamfile), file.exists(bamfile), endsWith(tolower(bamfile), ".bam")),
                 "bamfile directory name should need .bam extension")
 }
@@ -374,34 +374,34 @@ getWholeChromosomes <- function(methylationData){
       call. = FALSE
     )
   }
-  
+
   ## 2) extract its package name
   pkg <- genome@pkgname
-  
+
   ## 3) make sure BSgenome machinery is there
   if (!requireNamespace("BSgenome", quietly=TRUE)) {
     stop("please install the BSgenome package before specifying a genome", call. = FALSE)
   }
-  
+
   ## 4) get the official list of BSgenome packages
   avail <- tryCatch(
     {suppressMessages(suppressPackageStartupMessages(BSgenome::available.genomes()))},
     error = function(e) NULL
   )
-  
+
   ## 5) fallback: any installed BSgenome.* packages
   if (is.null(avail) || !is.character(avail)) {
     avail <- grep("^BSgenome\\.", rownames(utils::installed.packages()), value=TRUE)
   }
-  
-  ## 6) error if this genome isn’t known
+
+  ## 6) error if this genome isn't known
   if (!pkg %in% avail) {
     stop(
       sprintf(
         "Loaded BSgenome object has package name '%s',\n  but that package is not among the installed/available BSgenome.* packages.\n  Known packages: %s%s",
         pkg,
         paste(head(avail, 3), collapse=", "),
-        if (length(avail)>3) ", …" else ""
+        if (length(avail)>3) ", _" else ""
       ),
       call. = FALSE
     )
@@ -429,7 +429,7 @@ getWholeChromosomes <- function(methylationData){
 #' Scans the BAM for MM/ML tags in the specified region (or whole file)
 #' and checks that `modif` is one of the observed modification codes.
 #'
-#' @param modif Character scalar. The MM tag code to validate (e.g. “C+m?”).
+#' @param modif Character scalar. The MM tag code to validate (e.g. "C+m?").
 #' @param bamfile Character path to BAM (must exist plus .bai index).
 #' @param chr Optional character vector of chromosome(s) to restrict scan.
 #' @param genome A BSgenome, used to determine seqlengths if `chr` is set.
@@ -446,32 +446,32 @@ getWholeChromosomes <- function(methylationData){
   } else {
     param <- Rsamtools::ScanBamParam(tag = c("MM","ML"))
   }
-  
+
   bam <- Rsamtools::scanBam(bamfile, param = param)[[1]]
   bam_tag <- unique(bam$tag$MM)
   bam_tag <- bam_tag[!is.na(bam_tag)]
-  
+
   if (length(bam_tag) == 0) {
     stop("No MM tag found in the BAM file for the selected region/chromosome.")
   }
-  
+
   # flatten all tags
   bam_tag_split <- unlist(strsplit(as.character(bam_tag), ";", fixed = TRUE))
   bam_tag_split <- bam_tag_split[nzchar(bam_tag_split)]  # remove empty strings
-  
+
 
   code_list <- character()
   for (i in seq_along(bam_tag_split)) {
     parts <- strsplit(bam_tag_split[[i]], ",", fixed = TRUE)[[1]]
     code_list <- c(code_list, parts[1])
   }
-  
+
   codes <- unique(code_list)
   .stopIfNotAll(c(!is.null(modif), is.character(modif), length(modif) == 1, modif %in% codes),
                 c("Modified context must be one of: ", paste(shQuote(codes), collapse=", " )))
 }
 
-#' @title Validate or Auto‐Select a BiocParallelParam
+#' @title Validate or Auto-Select a BiocParallelParam
 #' @description
 #' If `BPPARAM` is `NULL`, picks `SnowParam` or `MulticoreParam` based on env vars
 #' or OS; otherwise checks class and fork compatibility.
@@ -499,10 +499,10 @@ getWholeChromosomes <- function(methylationData){
   invisible(BPPARAM)
 }
 
-#' @title Auto‐choose BiocParallelParam Backend
+#' @title Auto-choose BiocParallelParam Backend
 #' @description
-#' 1) If `NSLOTS` or `SLURM_CPUS_ON_NODE` are set, uses `SnowParam()` with that many workers.  
-#' 2) On Windows, `SnowParam(detectCores())`.  
+#' 1) If `NSLOTS` or `SLURM_CPUS_ON_NODE` are set, uses `SnowParam()` with that many workers.
+#' 2) On Windows, `SnowParam(detectCores())`.
 #' 3) Otherwise on Unix, `MulticoreParam(detectCores())`.
 #'
 #' @param workers Optional integer to override detected cores.
@@ -527,7 +527,7 @@ getWholeChromosomes <- function(methylationData){
     return(SnowParam(workers = cpus, type = cluster_type,
                      progressbar = progressbar, ...))
   }
-  
+
   # 2) local fallback
   os <- .Platform$OS.type
   ncore <- if (is.null(workers)) parallel::detectCores(logical = FALSE) else workers

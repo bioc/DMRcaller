@@ -8,7 +8,7 @@
 A \code{GRanges} object
 }
 \source{
-The object was created by loading the \code{gtf} file from 
+The object was created by loading the \code{gtf} file from
 \url{https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/genes/hg38.refGene.gtf.gz}.
 and concatenated by range in 1.5 ~ 2 Mbp from Chromosome 1
 }

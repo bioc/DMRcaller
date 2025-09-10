@@ -1,6 +1,6 @@
 
 
-#' This function computes the p-values of the Score test.  
+#' This function computes the p-values of the Score test.
 #'
 #' @title Score test
 #' @param m1 the number of methylated reads in condition 1
@@ -57,11 +57,6 @@
                                             .fisherTestPValue,
                                             alternative = alternative))
   }
-  #for(i in bufferIndexes){
-  #    pValue[i] <- fisher.test(matrix(dataM[i, ],nrow=2, byrow=TRUE), alternative = alternative)$p.value
-  #}
-
-  #pValue[bufferIndexes] <- apply(dataM[bufferIndexes, ],1, .fisherTestPValue, alternative = alternative)
 
   pValue[pValue > 1] <- 1
   pValue[pValue < 0] <- 0
@@ -77,7 +72,7 @@
 #'
 #' @author Radu Zabet
 .fisherTestPValue <-  function(x, alternative = c("two.sided", "less", "greater")){
-  return(fisher.test(matrix(unlist(x),nrow=2, byrow=TRUE), alternative = alternative)$p.value)
+  return(stats::fisher.test(matrix(unlist(x),nrow=2, byrow=TRUE), alternative = alternative)$p.value)
 }
 
 #' This function computes the adjusted p-values (using Benjamini & Hochberg
@@ -107,7 +102,7 @@
   # convert p-values to FDR
   adjPValue <- rep(NA, times=length(pValue))
 
-  adjPValue[which(!is.na(pValue))] <- p.adjust(pValue[which(!is.na(pValue))], method="fdr")
+  adjPValue[which(!is.na(pValue))] <- stats::p.adjust(pValue[which(!is.na(pValue))], method="fdr")
 
   return(adjPValue)
 }
@@ -147,7 +142,7 @@
   # convert p-values to FDR
   adjPValue <- rep(NA, times=length(pValue))
 
-  adjPValue[which(!is.na(pValue))] <- p.adjust(pValue[which(!is.na(pValue))], method="fdr")
+  adjPValue[which(!is.na(pValue))] <- stats::p.adjust(pValue[which(!is.na(pValue))], method="fdr")
 
   return(adjPValue)
 }

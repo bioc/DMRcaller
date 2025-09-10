@@ -14,7 +14,7 @@ selectCytosine(
 \arguments{
 \item{genome}{A \code{BSgenome} object or the name (character) of a BSgenome package
 to use as the reference genome. If a package name is given, it will be loaded
-automatically (default: \code{BSgenome.Hsapiens.UCSC.hg38}). 
+automatically (default: \code{BSgenome.Hsapiens.UCSC.hg38}).
 \strong{Note:} When running on an HPC system, please ensure that the required
 \code{BSgenome} package is already installed and loaded in advance.}
 

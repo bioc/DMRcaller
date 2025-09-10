@@ -22,7 +22,7 @@ readONTbam(
 \item{bamfile}{Path to an indexed ONT BAM with MM/ML tags.}
 
 \item{ref_gr}{A \code{GRanges} of genomic cytosine positions to annotate.
-If \code{NULL}, will be created via \code{selectCytosine()}  
+If \code{NULL}, will be created via \code{selectCytosine()}
 using \code{context}, \code{chr}, \code{region}.}
 
 \item{modif}{Character vector of MM codes to treat as “modified”
@@ -33,7 +33,7 @@ using \code{context}, \code{chr}, \code{region}.}
 
 \item{genome}{A \code{BSgenome} object such as \code{BSgenome.Hsapiens.UCSC.hg38}.
 This is used to extract sequence context and must be loaded in advance.
-\strong{Note:} When running on an HPC system, 
+\strong{Note:} When running on an HPC system,
 please ensure that the required
 \code{BSgenome} package is already installed and loaded in advance.}
 
@@ -44,17 +44,17 @@ please ensure that the required
 
 \item{region}{A \code{GRanges} to further subset \code{selectCytosine()}.}
 
+\item{synonymous}{Logical (default: FALSE). If TRUE, include modified calls that match the specified context sequence (e.g. CGG),
+even if the site was previously excluded due to deletion or mismatch.
+For example, if a deletion occurs at position 234523, but the surrounding context still forms CGG,
+then the modified C at 234523 will be retained (Nmod=1).}
+
 \item{parallel}{Logical. If TRUE, automatically detect your system condition and
-decoding will use parallel threads via BiocParallel::. 
+decoding will use parallel threads via BiocParallel::.
 If FALSE (default), decoding is done serially.}
 
 \item{BPPARAM}{A \code{BiocParallelParam} object controlling parallel execution.
 This value will automatically set when parallel is \code{TRUE}, also able to set as manually.}
-
-\item{synonimous}{Logical (default: FALSE). If TRUE, include modified calls that match the specified context sequence (e.g. CGG),
-even if the site was previously excluded due to deletion or mismatch.
-For example, if a deletion occurs at position 234523, but the surrounding context still forms CGG,
-then the modified C at 234523 will be retained (Nmod=1).}
 }
 \value{
 A \code{GRanges} of the same length as \code{ref_gr}, with four
@@ -72,12 +72,12 @@ decodes each read’s per-C modification probabilities, and overlays
 them on a \code{GRanges} of candidate cytosine sites.
 It returns a copy of \code{ref_gr} augmented with:
 \itemize{
-  \item \code{ONT_Cm} — comma-delimited read‐indices called “modified”  
-  \item \code{ONT_C}  — comma-delimited read‐indices covering but _not_ modified  
-  \item \code{readsM} — count of modified reads at each site  
-  \item \code{readsN} — total same-strand coverage at each site  
+  \item \code{ONT_Cm} — comma-delimited read‐indices called “modified”
+  \item \code{ONT_C}  — comma-delimited read‐indices covering but _not_ modified
+  \item \code{readsM} — count of modified reads at each site
+  \item \code{readsN} — total same-strand coverage at each site
 }
-  
+
 You can either supply your own \code{ref_gr} (e.g.\ from \code{selectCytosine()})
 or leave it \code{NULL} and pass \code{context}, \code{chr}, \code{region}
 to build \code{ref_gr} on the fly.
@@ -102,8 +102,8 @@ ONTSampleGRanges <- readONTbam(bamfile = bam_path, ref_gr = NULL, modif = "C+m?"
 
 }
 \seealso{
-\code{\link{selectCytosine}}, \code{\link{computeDMRs}}, 
-\code{\link{computePMDs}}, \code{\link{computeCoMethylation}}, 
+\code{\link{selectCytosine}}, \code{\link{computeDMRs}},
+\code{\link{computePMDs}}, \code{\link{computeCoMethylation}},
 \code{\link{filterVMRsONT}}, \code{\link{ontSampleGRangesList}},
 \code{\link{scanBamChr1Random5}}
 }

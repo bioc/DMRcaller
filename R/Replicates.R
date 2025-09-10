@@ -277,15 +277,15 @@ computeDMRsReplicates <- function(methylationData,
   #Parameters checking
   cat("Parameters checking ...\n")
 
-  # generate the BPPARAM value if set as parallel 
+  # generate the BPPARAM value if set as parallel
   if (parallel == TRUE){
-    BPPARAM <- suppressWarnings(.validateBPPARAM(BPPARAM, progressbar = TRUE)) 
+    BPPARAM <- suppressWarnings(.validateBPPARAM(BPPARAM, progressbar = TRUE))
   }else{
     # Force serial execution
     BPPARAM <- BiocParallel::SerialParam(progressbar = TRUE)
   }
   if (!is.null(cores)){
-    .stopIfNotAll(c(.isInteger(cores, positive=TRUE)), 
+    .stopIfNotAll(c(.isInteger(cores, positive=TRUE)),
                   " the number of cores to used when computing the DMRs needs to be an integer  hirger or equal to 1.")
     .stopIfNotAll(BPPARAM$workers >= cores, paste0("the cores should be smaller than system's cores, current system cores: ",BPPARAM$workers))
     BPPARAM$workers <- cores
@@ -293,7 +293,7 @@ computeDMRsReplicates <- function(methylationData,
     cores <- BPPARAM$workers
   }
   cat("Current parallel setting, BPPARAM: ", capture.output(BPPARAM),sep = "\n")
-  
+
   .validateMethylationData(methylationData, variableName="methylationData")
 
   .validateConditionReplicates(condition, methylationData)
@@ -582,11 +582,11 @@ computeDMRsReplicates <- function(methylationData,
         cat("Count inside each bin...\n")
         #bins <- .analyseReadsInsideRegions(localMethylationData, bins, context, cores)
         bins <- .analyseReadsInsideBinsReplicates(localMethylationData, bins, currentRegion, condition, pseudocountM, pseudocountN)
-        
+
         cat("Filter the bins...\n")
         # Get rid of the bins with fewer than minCytosinesCount cytosines inside.
         bins  <- bins[bins$cytosinesCount >= minCytosinesCount]
-        
+
 
         # Get rid of the bins with fewer than minReadsPerCytosine reads per cytosine.
         bins  <- bins[(bins$sumReadsN1/bins$cytosinesCount >= minReadsPerCytosine) &
@@ -635,7 +635,7 @@ computeDMRsReplicates <- function(methylationData,
   } else {
     computedDMRs <- lapply(1:length(regionsList), .computeDMRsReplicatesBinsLoop)
   }
-  
+
   if(length(computedDMRs) > 0){
     computedDMRs <- subset(computedDMRs, !sapply(computedDMRs, is.null))
     if(length(computedDMRs) > 0){
@@ -778,7 +778,7 @@ computeDMRsReplicates <- function(methylationData,
   # convert p-values to FDR
   adjPValue <- rep(NA, times=length(pValue))
 
-  adjPValue[which(!is.na(pValue))] <- p.adjust(pValue[which(!is.na(pValue))], method="fdr")
+  adjPValue[which(!is.na(pValue))] <- stats::p.adjust(pValue[which(!is.na(pValue))], method="fdr")
 
   return(adjPValue)
 }
@@ -821,7 +821,7 @@ computeDMRsReplicates <- function(methylationData,
   # convert p-values to FDR
   adjPValue <- rep(NA, times=length(pValue))
 
-  adjPValue[which(!is.na(pValue))] <- p.adjust(pValue[which(!is.na(pValue))], method="fdr")
+  adjPValue[which(!is.na(pValue))] <- stats::p.adjust(pValue[which(!is.na(pValue))], method="fdr")
 
   return(adjPValue)
 }
@@ -887,11 +887,11 @@ computeDMRsReplicates <- function(methylationData,
   n1 <- n[which(condition == unique(condition)[1])]
   m2 <- m[which(condition == unique(condition)[2])]
   n2 <- n[which(condition == unique(condition)[2])]
-  
+
   # sumReadsM1 <- sum(readsM[,which(condition == unique(condition)[1])])
   # sumReadsN1 <- sum(readsN[,which(condition == unique(condition)[1])])
   # proportion1 <- (sumReadsM1 + pseudocountM)/ (sumReadsN1 + pseudocountN)
-  # 
+  #
   # sumReadsM2 <- sum(readsM[,which(condition == unique(condition)[2])])
   # sumReadsN2 <- sum(readsN[,which(condition == unique(condition)[2])])
   # proportion2 <- (sumReadsM2 + pseudocountM)/ (sumReadsN2 + pseudocountN)
@@ -908,8 +908,8 @@ computeDMRsReplicates <- function(methylationData,
   } else {
     sumReadsM1 <- rowSums(readsM1)
   }
-  
-  
+
+
   readsN1 <- readsN[,which(condition == unique(condition)[1])]
   # readsN1 <- matrix(0, ncol = length(n1), nrow=length(bins))
   # for(i in 1:length(n1)){
@@ -923,8 +923,8 @@ computeDMRsReplicates <- function(methylationData,
     sumReadsN1 <- rowSums(readsN1)
   }
   proportion1 <- (sumReadsM1 + pseudocountM)/ (sumReadsN1 + pseudocountN)
-  
-  
+
+
   readsM2 <- readsM[,which(condition == unique(condition)[2])]
   # readsM2 <- matrix(0, ncol = length(m2), nrow=length(bins))
   # for(i in 1:length(m2)){
@@ -937,7 +937,7 @@ computeDMRsReplicates <- function(methylationData,
   } else {
     sumReadsM2 <- rowSums(readsM2)
   }
-  
+
   readsN2 <- readsN[,which(condition == unique(condition)[2])]
   # readsN2 <- matrix(0, ncol = length(n2), nrow=length(bins))
   # for(i in 1:length(n2)){
@@ -951,7 +951,7 @@ computeDMRsReplicates <- function(methylationData,
     sumReadsN2 <- rowSums(readsN2)
   }
   proportion2 <- (sumReadsM2 + pseudocountM)/ (sumReadsN2 + pseudocountN)
-  
+
   cytosines <- .movingSum(start(currentRegion), end(currentRegion), start(methylationData), rep(1, length(start(methylationData))), windowSize = binSize)
   cytosinesCount <- cytosines[seq(1,length(cytosines)-binSize, by=binSize)]
 

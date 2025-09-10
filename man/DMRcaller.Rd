@@ -19,8 +19,8 @@ is a list of DMRs stored as a \code{GRanges} object.
   \item \code{readsN} — total same-strand coverage per site
 }
 
-For Nanopore data, the input is an indexed ONT BAM with calling 
-\code{\link{readONTbam}} function in this package and the output is a 
+For Nanopore data, the input is an indexed ONT BAM with calling
+\code{\link{readONTbam}} function in this package and the output is a
 \code{GRanges} augmented with metadata columns:
 \itemize{
   \item \code{ONT_Cm} — comma-delimited read-indices called “modified”
@@ -37,11 +37,11 @@ The most important functions in the \pkg{DMRcaller} are:
        pools them together.}
  \item{\code{\link{saveBismark}}}{saves the methylation data stored in a
        \code{\link{GRanges}} object into a Bismark CX report file.}
- \item{\code{\link{selectCytosine}}}{Enumerates cytosine positions in a 
-       BSgenome reference, optionally filtering by methylation context 
+ \item{\code{\link{selectCytosine}}}{Enumerates cytosine positions in a
+       BSgenome reference, optionally filtering by methylation context
        (CG/CHG/CHH), chromosome and genomic region.}
- \item{\code{\link{readONTbam}}}{Loads an Oxford Nanopore BAM 
-       (with MM/ML tags), decodes per‐C modification probabilities and 
+ \item{\code{\link{readONTbam}}}{Loads an Oxford Nanopore BAM
+       (with MM/ML tags), decodes per‐C modification probabilities and
        counts modified vs. unmodified reads per site.}
  \item{\code{\link{poolMethylationDatasets}}}{pools together multiple
        methylation datasets.}
@@ -84,20 +84,20 @@ The most important functions in the \pkg{DMRcaller} are:
  \item{\code{\link{computeDMRsReplicates}}}{Computes the differentially
        methylated regions between two conditions with multiple
        biological replicates.}
- \item{\code{\link{selectCytosine}}}{Enumerates cytosine positions in a 
-       BSgenome reference.}  
- \item{\code{\link{readONTbam}}}{Loads an ONT BAM (MM/ML tags), 
-       decodes per‐C modification probabilities,  
-       and counts modified vs. unmodified reads per site.}  
- \item{\code{\link{computePMDs}}}{Partitions the genome into PMDs via 
+ \item{\code{\link{selectCytosine}}}{Enumerates cytosine positions in a
+       BSgenome reference.}
+ \item{\code{\link{readONTbam}}}{Loads an ONT BAM (MM/ML tags),
+       decodes per‐C modification probabilities,
+       and counts modified vs. unmodified reads per site.}
+ \item{\code{\link{computePMDs}}}{Partitions the genome into PMDs via
        three methods ("noise_filter", "neighbourhood", "bins").}
- \item{\code{\link{filterPMDs}}}{Filters a set of PMDs by methylation level 
+ \item{\code{\link{filterPMDs}}}{Filters a set of PMDs by methylation level
        and read depth.}
- \item{\code{\link{mergePMDsIteratively}}}{Merge PMDs while preserving 
+ \item{\code{\link{mergePMDsIteratively}}}{Merge PMDs while preserving
        statistical significance.}
- \item{\code{\link{analyseReadsInsideRegionsForConditionPMD}}}{Counts reads 
+ \item{\code{\link{analyseReadsInsideRegionsForConditionPMD}}}{Counts reads
        in each PMD for one condition.}
- \item{\code{\link{computeCoMethylation}}}{Computes pairwise co‐methylation 
+ \item{\code{\link{computeCoMethylation}}}{Computes pairwise co‐methylation
        between CpGs within regions.}
 }
 }
@@ -125,7 +125,7 @@ ONTSampleGRanges <- readONTbam(bamfile = bam_path, ref_gr = NULL, modif = "C+m?"
                          prob_thresh = 0.50,genome = BSgenome.Hsapiens.UCSC.hg38,
                          context = "CG", chr = "chr1", region = NULL,
                          synonymous = FALSE, parallel = FALSE, BPPARAM = NULL)
-                   
+
 # plot the low resolution profile at 5 Kb resolution
 par(mar=c(4, 4, 3, 1)+0.1)
 plotMethylationProfileFromData(methylationDataList[["WT"]],
@@ -302,7 +302,7 @@ DMRsReplicatesNeighbourhood <- computeDMRsReplicates(methylationData = methylati
                                                      minSize = 50,
                                                      minReadsPerCytosine = 4,
                                                      cores = 1)
-# load the ONT methylation data 
+# load the ONT methylation data
 data(ontSampleGRangesList)
 
 # the regions where to compute the PMDs
@@ -314,46 +314,46 @@ PMDsNoiseFilterCG <- computePMDs(ontSampleGRangesList[["GM18501"]],
                                  context = "CG",
                                  windowSize = 100,
                                  method = "noise_filter",
-                                 kernelFunction = "triangular", 
+                                 kernelFunction = "triangular",
                                  lambda = 0.5,
-                                 minCytosinesCount = 4, 
-                                 minMethylation = 0.4, 
-                                 maxMethylation = 0.6, 
-                                 minGap = 200, 
-                                 minSize = 50, 
-                                 minReadsPerCytosine = 4, 
+                                 minCytosinesCount = 4,
+                                 minMethylation = 0.4,
+                                 maxMethylation = 0.6,
+                                 minGap = 200,
+                                 minSize = 50,
+                                 minReadsPerCytosine = 4,
                                  cores = 1,
                                  parallel = FALSE)
-                                 
+
 # compute the PMDs in CG context with neighbourhood method
 PMDsNeighbourhoodCG <- computePMDs(ontSampleGRangesList[["GM18501"]],
                                    regions = chr1_ranges,
                                    context = "CG",
                                    method = "neighbourhood"
-                                   minCytosinesCount = 4, 
-                                   minMethylation = 0.4, 
-                                   maxMethylation = 0.6, 
-                                   minGap = 200, 
-                                   minSize = 50, 
-                                   minReadsPerCytosine = 4, 
+                                   minCytosinesCount = 4,
+                                   minMethylation = 0.4,
+                                   maxMethylation = 0.6,
+                                   minGap = 200,
+                                   minSize = 50,
+                                   minReadsPerCytosine = 4,
                                    cores = 1,
                                    parallel = FALSE)
-                                   
+
 # compute the PMDs in CG context with bins method
 PMDsBinsCG <- computePMDs(ontSampleGRangesList[["GM18501"]],
                           regions = chr1_ranges,
                           context = "CG",
                           method = "bins",
                           binSize = 100,
-                          minCytosinesCount = 4, 
-                          minMethylation = 0.4, 
-                          maxMethylation = 0.6, 
-                          minGap = 200, 
-                          minSize = 50, 
-                          minReadsPerCytosine = 4, 
+                          minCytosinesCount = 4,
+                          minMethylation = 0.4,
+                          maxMethylation = 0.6,
+                          minGap = 200,
+                          minSize = 50,
+                          minReadsPerCytosine = 4,
                           cores = 1,
-                          parallel = FALSE)  
- 
+                          parallel = FALSE)
+
 # load the gene annotation data
 data(GEs_hg38)
 
@@ -365,53 +365,53 @@ regions <- GRanges(seqnames = Rle("chr1"), ranges = IRanges(1E6+5E5,2E6))
 transcript <- transcript[overlapsAny(transcript, regions)]
 
 # filter genes that are partially methylated in the two conditions
-PMDsGenesCG <- filterPMDs(ontSampleGRangesList[["GM18501"]], 
-               potentialPMDs = transcript, 
+PMDsGenesCG <- filterPMDs(ontSampleGRangesList[["GM18501"]],
+               potentialPMDs = transcript,
                context = "CG", minMethylation = 0.4, maxMethylation = 0.6,
                minCytosinesCount = 4, minReadsPerCytosine = 3, cores = 1)
-               
+
 # load the PMDs in CG context they were computed with minGap = 200
 data(PMDsNoiseFilterCG)
 
 
-# merge the PMDs 
-PMDsNoiseFilterCGLarger <- mergePMDsIteratively(PMDsNoiseFilterCG[1:100], 
-                           minGap = 500, respectSigns = TRUE, 
-                           ontSampleGRangesList[["GM18501"]], context = "CG", 
-                           minReadsPerCytosine = 4, minMethylation = 0.4, 
+# merge the PMDs
+PMDsNoiseFilterCGLarger <- mergePMDsIteratively(PMDsNoiseFilterCG[1:100],
+                           minGap = 500, respectSigns = TRUE,
+                           ontSampleGRangesList[["GM18501"]], context = "CG",
+                           minReadsPerCytosine = 4, minMethylation = 0.4,
                            maxMethylation = 0.6, cores = 1)
 
 # set genomic coordinates where to compute PMDs
 chr1_ranges <- GRanges(seqnames = Rle("chr1"), ranges = IRanges(1E6+5E5,2E6))
 
 # compute PMDs and remove gaps smaller than 200 bp
-PMDsNoiseFilterCG200 <- computePMDs(ontSampleGRangesList[["GM18501"]], 
-                       regions = chr1_ranges, context = "CG", method = "noise_filter", 
-                       windowSize = 100, kernelFunction = "triangular",  
-                       minCytosinesCount = 1, minMethylation = 0.4, 
-                       maxMethylation = 0.6, minGap = 0, minSize = 200, 
+PMDsNoiseFilterCG200 <- computePMDs(ontSampleGRangesList[["GM18501"]],
+                       regions = chr1_ranges, context = "CG", method = "noise_filter",
+                       windowSize = 100, kernelFunction = "triangular",
+                       minCytosinesCount = 1, minMethylation = 0.4,
+                       maxMethylation = 0.6, minGap = 0, minSize = 200,
                        minReadsPerCytosine = 1, cores = 1)
-PMDsNoiseFilterCG0 <- computePMDs(ontSampleGRangesList[["GM18501"]], 
-                       regions = chr1_ranges, context = "CG", method = "noise_filter", 
-                       windowSize = 100, kernelFunction = "triangular", 
-                       minCytosinesCount = 1, minMethylation = 0.4, 
-                       maxMethylation = 0.6, minGap = 0, minSize = 0, 
+PMDsNoiseFilterCG0 <- computePMDs(ontSampleGRangesList[["GM18501"]],
+                       regions = chr1_ranges, context = "CG", method = "noise_filter",
+                       windowSize = 100, kernelFunction = "triangular",
+                       minCytosinesCount = 1, minMethylation = 0.4,
+                       maxMethylation = 0.6, minGap = 0, minSize = 0,
                        minReadsPerCytosine = 1, cores = 1)
-PMDsNoiseFilterCG0Merged200 <- mergePMDsIteratively(PMDsNoiseFilterCG0, 
-                             minGap = 200, respectSigns = TRUE, 
-                             ontSampleGRangesList[["GM18501"]], context = "CG",  
-                             minReadsPerCytosine = 4, minMethylation = 0.4, 
-                             maxMethylation = 0.6, cores = 1)                      
+PMDsNoiseFilterCG0Merged200 <- mergePMDsIteratively(PMDsNoiseFilterCG0,
+                             minGap = 200, respectSigns = TRUE,
+                             ontSampleGRangesList[["GM18501"]], context = "CG",
+                             minReadsPerCytosine = 4, minMethylation = 0.4,
+                             maxMethylation = 0.6, cores = 1)
 
 #check that all newley computed PMDs are identical
-print(all(PMDsNoiseFilterCG200 == PMDsNoiseFilterCG0Merged200))   
+print(all(PMDsNoiseFilterCG200 == PMDsNoiseFilterCG0Merged200))
 
 #retrive the number of reads in CG context in GM18501
 PMDsNoiseFilterCGreadsCG <- analyseReadsInsideRegionsForConditionPMD(
-                             PMDsNoiseFilterCG[1:10], 
-                             ontSampleGRangesList[["GM18501"]], context = "CG", 
-                             label = "GM18501")     
-                             
+                             PMDsNoiseFilterCG[1:10],
+                             ontSampleGRangesList[["GM18501"]], context = "CG",
+                             label = "GM18501")
+
 # load the PMD data
 data(PMDsBinsCG)
 
@@ -425,7 +425,7 @@ coMetylationFisher <- computeCoMethylation(
   pValueThreshold = 0.01,
   test = "fisher",
   parallel = FALSE)
-  
+
 # compute the co-methylations with Permuation test
 coMetylationPermutation <- computeCoMethylation(
   ontSampleGRangesList[[1]],
@@ -435,8 +435,8 @@ coMetylationPermutation <- computeCoMethylation(
   minCoverage = 4,
   pValueThreshold = 0.01,
   test = "permutation",
-  parallel = FALSE) # highly recommended to set as TRUE   
-  
+  parallel = FALSE) # highly recommended to set as TRUE
+
 # select the transcript
 transcript <- GEs_hg38[which(GEs_hg38$type == "transcript")]
 
@@ -445,12 +445,12 @@ regions <- GRanges(seqnames = Rle("chr1"), ranges = IRanges(1E6+5E5,2E6))
 transcript <- transcript[overlapsAny(transcript, regions)]
 
 # filter genes that are differntially methylated in the two conditions
-VMRsGenesCG <- filterVMRsONT(ontSampleGRangesList[["GM18501"]], 
-               ontSampleGRangesList[["GM18876"]], potentialVMRs = transcript, 
-               context = "CG", pValueThreshold = 0.01, 
-               minCytosinesCount = 4, minProportionDifference = 0.01, 
+VMRsGenesCG <- filterVMRsONT(ontSampleGRangesList[["GM18501"]],
+               ontSampleGRangesList[["GM18876"]], potentialVMRs = transcript,
+               context = "CG", pValueThreshold = 0.01,
+               minCytosinesCount = 4, minProportionDifference = 0.01,
                minReadsPerCytosine = 3, ciExcludesOne = TRUE,
-               varRatioFc = NULL, parallel = TRUE) # parallel recommended             
+               varRatioFc = NULL, parallel = TRUE) # parallel recommended
 
 }
 
@@ -461,10 +461,10 @@ See \code{vignette("rd", package = "DMRcaller")} for an overview
 of the package.
 }
 \author{
-Nicolae Radu Zabet \email{n.r.zabet@gen.cam.ac.uk},
+Nicolae Radu Zabet \email{r.zabet@qmul.ac.uk},
 Jonathan Michael Foonlan Tsang \email{jmft2@cam.ac.uk},
 Alessandro Pio Greco \email{apgrec@essex.ac.uk},
 Young Jun Kim \email{qc25039@qmul.ac.uk}
 
-Maintainer: Nicolae Radu Zabet \email{n.r.zabet@gen.cam.ac.uk}
+Maintainer: Nicolae Radu Zabet \email{r.zabet@qmul.ac.uk}
 }

@@ -21,7 +21,7 @@ computeCoMethylation(
 \item{methylationData}{A \code{GRanges} object containing cytosine sites, annotated with
 per-site ONT methylation calls (columns \code{ONT_Cm}, \code{ONT_C}, \code{readsN}, etc).}
 
-\item{regions}{A \code{GRanges} object with list including genomic context such as gene and/or transposable 
+\item{regions}{A \code{GRanges} object with list including genomic context such as gene and/or transposable
 elements coordinates which possibly have DMRs, VMRs or PMDs.}
 
 \item{minDistance}{Minimum distance (in bp) between two cytosines to consider for co-methylation (default: 150).}
@@ -37,7 +37,7 @@ elements coordinates which possibly have DMRs, VMRs or PMDs.}
 the initial letter. Only used in the 2 by 2 case. This is used only for
 Fisher's test.}
 
-\item{test}{Statistical test to use for co-methylation (\code{"fisher"} 
+\item{test}{Statistical test to use for co-methylation (\code{"fisher"}
 for Fisher's exact [default], or \code{"permutation"} for chi-squared).
 NOTE: highly recommended to do parallel when use permutation test.}
 
@@ -62,9 +62,9 @@ A list of length equal to \code{regions}, where each entry is a \code{GInteracti
 }
 \description{
 \code{computeCoMethylation()} calculates pairwise co-methylation between all cytosine sites
-within each given region, using ONT methylation calls annotated to each site. 
+within each given region, using ONT methylation calls annotated to each site.
 For each pair of cytosines within the same strand and PMD, it builds a 2x2 contingency table
-reflecting the overlap state of reads (both methylated, only one methylated, or neither), 
+reflecting the overlap state of reads (both methylated, only one methylated, or neither),
 performs a statistical test (Fisher's exact by default), and reports FDR-adjusted p-values.
 }
 \details{
@@ -90,7 +90,7 @@ coMetylationFisher <- computeCoMethylation(
   pValueThreshold = 0.01,
   test = "fisher",
   parallel = FALSE)
-  
+
 # compute the co-methylations with Permuation test
 coMetylationPermutation <- computeCoMethylation(
   ont_gr_GM18870_chr1_sorted_bins_1k,
@@ -105,7 +105,7 @@ coMetylationPermutation <- computeCoMethylation(
 
 }
 \seealso{
-\code{\link{readONTbam}}, \code{\link{computePMDs}}, 
+\code{\link{readONTbam}}, \code{\link{computePMDs}},
 \code{\link{ontSampleGRangesList}}
 }
 \author{

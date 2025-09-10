@@ -32,8 +32,8 @@ CpG islands, etc.).}
 \item{context}{Character string specifying cytosine context ("CG", "CHG",
 or "CHH").}
 
-\item{pValueThreshold}{Numeric p‐value threshold (0<value<1) for both
-Wilcoxon and F‐tests after FDR adjustment.}
+\item{pValueThreshold}{Numeric p-value threshold (0<value<1) for both
+Wilcoxon and F-tests after FDR adjustment.}
 
 \item{minCytosinesCount}{Integer minimum number of cytosines per region.}
 
@@ -43,9 +43,9 @@ between conditions (0<value<1).}
 \item{minReadsPerCytosine}{Integer minimum average coverage per cytosine.}
 
 \item{ciExcludesOne}{Logical; if \code{TRUE}, filter out regions whose
-F‐test 95\% confidence interval spans 1 (i.e., no significant variance change).}
+F-test 95\% confidence interval spans 1 (i.e., no significant variance change).}
 
-\item{varRatioFc}{Optional; numeric fold‐change cutoff on variance ratio
+\item{varRatioFc}{Optional; numeric fold-change cutoff on variance ratio
 (e.g., 2 for twofold variance difference). Regions with variance ratio
 outside \code{[1/varRatioFc, varRatioFc]} are kept when set.}
 
@@ -57,8 +57,6 @@ This value will automatically set when parallel is \code{TRUE}, also able to set
 \item{cores}{Integer number of workers (must not exceed \code{BPPARAM$workers}).
 This value will automatically set as the maximum number of system workers,
 also able to set as manually.}
-
-\item{test}{Statistical test for VMR calling ("fisher" or "score").}
 }
 \value{
 A \code{GRanges} with the same ranges as \code{regions}, plus these metadata:
@@ -72,38 +70,38 @@ A \code{GRanges} with the same ranges as \code{regions}, plus these metadata:
   \item{proportion2}{methylation proportion (sumReadsM2/sumReadsN2)}
   \item{variance2}{variance of per-read methylation proportions in condition 2}
   \item{cytosinesCount}{number of cytosines observed in each region}
-  \item{wilcox_pvalue}{FDR adjusted p-value from Wilcoxon rank‐sum test comparing per‐read proportions}
-  \item{f_pvalue}{FDR adjusted p-value from F‐test comparing variances of per‐read proportions}
+  \item{wilcox_pvalue}{FDR adjusted p-value from Wilcoxon rank-sum test comparing per-read proportions}
+  \item{f_pvalue}{FDR adjusted p-value from F-test comparing variances of per-read proportions}
   \item{var_ratio}{Ratio of variances (variance1 / variance2)}
   \item{wilcox_result}{Full \code{htest} object returned by \code{wilcox.test}}
   \item{F_test_result}{Full \code{htest} object returned by \code{var.test}}
-  \item{direction}{a number indicating whether the region lost (-1)  or gain 
+  \item{direction}{a number indicating whether the region lost (-1)  or gain
     (+1) methylation in condition 2 compared to condition 1.}
-  \item{regionType}{a string indicating whether the region lost (\code{"loss"})  
+  \item{regionType}{a string indicating whether the region lost (\code{"loss"})
     or gained (\code{"gain"}) methylation in condition 2 compared to condition 1.}
   \item{is_DMR}{logical; \code{TRUE} if region passed the \code{wilcox.test}}
   \item{is_VMR}{logical; \code{TRUE} if region passed the \code{var.test}}
 }
 }
 \description{
-Filter VMRs with ONT‐specific variance tests and CI filters
+Filter VMRs with ONT-specific variance tests and CI filters
 }
 \details{
 This function verifies whether a set of potential VMRs (e.g., genes,
 transposons, CpG islands) are differentially methylated or not in ONT data,
-adding per‐read Wilcoxon and F‐tests on per‐site proportions, confidence interval
-filtering, and optional variance‐fold change cutoffs.
+adding per-read Wilcoxon and F-tests on per-site proportions, confidence interval
+filtering, and optional variance-fold change cutoffs.
 
 
-For each potential VMR, per‐site methylation proportions are aggregated per read,
-then a two‐sample Wilcoxon rank‐sum test compares means (\code{wilcox_pvalue}), and
-an F‐test compares variances (\code{f_pvalue}). You may further filter by requiring
-the 95% confidence interval from the F‐test to exclude 1 (\code{ciExcludesOne}) and/or
-apply a fold‐change cutoff on the variance ratio (\code{varRatioFc}).
+For each potential VMR, per-site methylation proportions are aggregated per read,
+then a two-sample Wilcoxon rank-sum test compares means (\code{wilcox_pvalue}), and
+an F-test compares variances (\code{f_pvalue}). You may further filter by requiring
+the 95% confidence interval from the F-test to exclude 1 (\code{ciExcludesOne}) and/or
+apply a fold-change cutoff on the variance ratio (\code{varRatioFc}).
 }
 \examples{
 ##example run require
-# load the ONT methylation data 
+# load the ONT methylation data
 data(ontSampleGRangesList)
 # load the gene annotation data
 data(GEs_hg38)
@@ -116,17 +114,17 @@ regions <- GRanges(seqnames = Rle("chr1"), ranges = IRanges(1E6+5E5,2E6))
 transcript <- transcript[overlapsAny(transcript, regions)]
 
 # filter genes that are differntially methylated in the two conditions
-VMRsGenesCG <- filterVMRsONT(ontSampleGRangesList[["GM18501"]], 
-               ontSampleGRangesList[["GM18876"]], potentialVMRs = transcript, 
-               context = "CG", pValueThreshold = 0.01, 
-               minCytosinesCount = 4, minProportionDifference = 0.01, 
+VMRsGenesCG <- filterVMRsONT(ontSampleGRangesList[["GM18501"]],
+               ontSampleGRangesList[["GM18876"]], potentialVMRs = transcript,
+               context = "CG", pValueThreshold = 0.01,
+               minCytosinesCount = 4, minProportionDifference = 0.01,
                minReadsPerCytosine = 3, ciExcludesOne = TRUE,
                varRatioFc = NULL, parallel = TRUE) # parallel recommended
 
 }
 \seealso{
-\code{\link{readONTbam}}, 
-\code{\link{computePMDs}}, \code{\link{computeCoMethylation}}, 
+\code{\link{readONTbam}},
+\code{\link{computePMDs}}, \code{\link{computeCoMethylation}},
 \code{\link{ontSampleGRangesList}}, \code{\link{GEs_hg38}}
 }
 \author{

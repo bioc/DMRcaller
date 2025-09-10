@@ -7,17 +7,17 @@
 readBismarkPool(files)
 }
 \arguments{
-\item{files}{The filenames (including path) of the methylation 
+\item{files}{The filenames (including path) of the methylation
 (CX report generated with Bismark) to be read}
 }
 \value{
-the methylation data stored as a \code{\link{GRanges}} 
+the methylation data stored as a \code{\link{GRanges}}
 object with four metadata columns (see \code{\link{methylationDataList}}).
 }
 \description{
-This function takes as input a vector of CX report file produced by Bismark 
-and returns a \code{\link{GRanges}} object with four metadata columns 
-(see \code{\link{methylationDataList}}). The file represents the pooled 
+This function takes as input a vector of CX report file produced by Bismark
+and returns a \code{\link{GRanges}} object with four metadata columns
+(see \code{\link{methylationDataList}}). The file represents the pooled
 bisulfite sequencing data.
 }
 \examples{
@@ -26,13 +26,13 @@ bisulfite sequencing data.
 data(methylationDataList)
 
 # save the two datasets
-saveBismark(methylationDataList[["WT"]], 
+saveBismark(methylationDataList[["WT"]],
            "chr3test_a_thaliana_wt.CX_report")
-saveBismark(methylationDataList[["met1-3"]], 
+saveBismark(methylationDataList[["met1-3"]],
            "chr3test_a_thaliana_met13.CX_report")
 
 # reload the two datasets and pool them
-filenames <- c("chr3test_a_thaliana_wt.CX_report", 
+filenames <- c("chr3test_a_thaliana_wt.CX_report",
                "chr3test_a_thaliana_met13.CX_report")
 methylationDataPool <- readBismarkPool(filenames)
 

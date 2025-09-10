@@ -3,20 +3,20 @@
 #' @title Compute pairwise co-methylation statistics for cytosine sites within regions
 #' @description
 #' \code{computeCoMethylation()} calculates pairwise co-methylation between all cytosine sites
-#' within each given region, using ONT methylation calls annotated to each site. 
+#' within each given region, using ONT methylation calls annotated to each site.
 #' For each pair of cytosines within the same strand and PMD, it builds a 2x2 contingency table
-#' reflecting the overlap state of reads (both methylated, only one methylated, or neither), 
+#' reflecting the overlap state of reads (both methylated, only one methylated, or neither),
 #' performs a statistical test (Fisher's exact by default), and reports FDR-adjusted p-values.
 #'
 #' @param methylationData A \code{GRanges} object containing cytosine sites, annotated with
 #'   per-site ONT methylation calls (columns \code{ONT_Cm}, \code{ONT_C}, \code{readsN}, etc).
-#' @param regions A \code{GRanges} object with list including genomic context such as gene and/or transposable 
+#' @param regions A \code{GRanges} object with list including genomic context such as gene and/or transposable
 #' elements coordinates which possibly have DMRs, VMRs or PMDs.
 #' @param minDistance Minimum distance (in bp) between two cytosines to consider for co-methylation (default: 150).
 #' @param maxDistance Maximum distance (in bp) between two cytosines to consider (default: 1000).
 #' @param minCoverage Minimum read coverage required for both cytosines in a pair (default: 4).
 #' @param pValueThreshold FDR-adjusted p-value threshold for reporting significant co-methylation (default: 0.01).
-#' @param test Statistical test to use for co-methylation (\code{"fisher"} 
+#' @param test Statistical test to use for co-methylation (\code{"fisher"}
 #' for Fisher's exact [default], or \code{"permutation"} for chi-squared).
 #' NOTE: highly recommended to do parallel when use permutation test.
 #' @param alternative indicates the alternative hypothesis and must be one of
@@ -42,16 +42,16 @@
 #' @details
 #' Pairwise tests are performed separately for each strand (+ and -) within each region.
 #' FDR correction is performed for all pairs within each region and strand.
-#' 
-#' @seealso \code{\link{readONTbam}}, \code{\link{computePMDs}}, 
+#'
+#' @seealso \code{\link{readONTbam}}, \code{\link{computePMDs}},
 #' \code{\link{ontSampleGRangesList}}
-#' 
+#'
 #' @examples
 #' \dontrun{
 #' # load the ONT methylation data and PMD data
 #' data(ont_gr_GM18870_chr1_PMD_bins_1k)
 #' data(ont_gr_GM18870_chr1_sorted_bins_1k)
-#' 
+#'
 #' # compute the co-methylations with Fisher's exact test
 #' coMetylationFisher <- computeCoMethylation(
 #'   ont_gr_GM18870_chr1_sorted_bins_1k,
@@ -62,7 +62,7 @@
 #'   pValueThreshold = 0.01,
 #'   test = "fisher",
 #'   parallel = FALSE)
-#'   
+#'
 #' # compute the co-methylations with Permuation test
 #' coMetylationPermutation <- computeCoMethylation(
 #'   ont_gr_GM18870_chr1_sorted_bins_1k,
@@ -82,9 +82,9 @@
 #' @import BiocParallel
 #' @export
 computeCoMethylation <- function(methylationData,
-                                          regions, 
+                                          regions,
                                           minDistance = 150,
-                                          maxDistance = 1000, 
+                                          maxDistance = 1000,
                                           minCoverage = 4,
                                           pValueThreshold = 0.01,
                                           alternative = "two.sided",
@@ -93,10 +93,10 @@ computeCoMethylation <- function(methylationData,
                                           BPPARAM  = NULL){
   ##Parameters checking
   cat("Parameters checking ...\n")
-  
+
   # generate the BPPARAM value if set as parallel
   if (parallel == TRUE){
-    BPPARAM <- suppressWarnings(.validateBPPARAM(BPPARAM, progressbar = TRUE)) 
+    BPPARAM <- suppressWarnings(.validateBPPARAM(BPPARAM, progressbar = TRUE))
     cat("Current parallel setting, BPPARAM: ",
         capture.output(BPPARAM),sep = "\n")
   }else{
@@ -105,32 +105,32 @@ computeCoMethylation <- function(methylationData,
     cat("Current parallel setting, BPPARAM: ",
         capture.output(BPPARAM),sep = "\n")
   }
-  
+
   .validateMethylationData(methylationData, variableName="methylationData")
   regions <- .validateGRanges(regions, methylationData)
 
   .validateCoMethylationStatTest(test)
-  
+
   .validateCoMethylationAlternative(alternative)
-  
-  .stopIfNotAll(c(!is.null(minDistance), is.numeric(minDistance), minDistance >= 0), 
+
+  .stopIfNotAll(c(!is.null(minDistance), is.numeric(minDistance), minDistance >= 0),
                 " minDistance needs to be a numeric value higher or equal to 0")
-  
-  .stopIfNotAll(c(!is.null(maxDistance), is.numeric(maxDistance), maxDistance >= 0), 
+
+  .stopIfNotAll(c(!is.null(maxDistance), is.numeric(maxDistance), maxDistance >= 0),
                 " maxDistance needs to be a numeric value higher or equal to 0")
-  
-  .stopIfNotAll(c(maxDistance >= minDistance), 
+
+  .stopIfNotAll(c(maxDistance >= minDistance),
                 " maxMethylation should be higher than minMethylation value")
-  
+
   .stopIfNotAll(c(.isInteger(minCoverage, positive=TRUE)),
                 " the minimum gap between PMDs is an integer higher or equal to 0")
 
-  .stopIfNotAll(c(!is.null(pValueThreshold), 
-                  is.numeric(pValueThreshold), 
-                  pValueThreshold > 0, 
+  .stopIfNotAll(c(!is.null(pValueThreshold),
+                  is.numeric(pValueThreshold),
+                  pValueThreshold > 0,
                   pValueThreshold < 1),
                 " the p-value threshold needs to be in the interval (0,1)")
-  
+
   results_gil =  vector(mode = "list", length = length(regions))
   regions <- .generateGRangesName(regions)
   t_start <- Sys.time()
@@ -160,13 +160,13 @@ computeCoMethylation <- function(methylationData,
     results_gil[[i]] <- merged
   }
   names(results_gil) <- regions$genomic_position
-  
+
   # keep only those bins where we got a valid GInteractions back
   keep <- vapply(results_gil,
                  function(x) !is.null(x) & length(x) > 0L,
                  logical(1))
   results_gil <- results_gil[keep]
-  
+
   results_gi <- do.call(c, Map(function(strand_list, region_name) {
     # 1) pull out the two strand‐specific GInteractions
     gi_pos <- strand_list[["+"]]
@@ -174,7 +174,7 @@ computeCoMethylation <- function(methylationData,
     # guard against NULL
     if (is.null(gi_pos)) gi_pos <- GInteractions()
     if (is.null(gi_neg)) gi_neg <- GInteractions()
-    
+
     mcols(gi_pos)$strand <- rep("+",length(gi_pos))
     mcols(gi_neg)$strand <- rep("-",length(gi_neg))
     # 2) concatenate them
@@ -183,15 +183,15 @@ computeCoMethylation <- function(methylationData,
     mcols(gi)$genomic_position <- rep(region_name, length(gi))
     gi
   }, results_gil, names(results_gil)))
-  
+
   result <- Reduce(c, results_gi)
-  
+
   # Adjust the p.value using the FDR method
-  mcols(result)$p.value <- p.adjust(result$pre_p.value, method = 'fdr')
+  mcols(result)$p.value <- stats::p.adjust(result$pre_p.value, method = 'fdr')
   mcols(result)$pre_p.value <- NULL
   keep_final <- result$p.value < pValueThreshold
   result <- result[which(result$p.value < pValueThreshold & !is.na(result$p.value))]
-  
+
 
   total_elapsed <- difftime(Sys.time(), t_start, units = "secs")
   cat(sprintf("[computeCoMethylation] Done! Total elapsed time: %.1f sec\n", as.numeric(total_elapsed)))
@@ -211,22 +211,22 @@ computeCoMethylation <- function(methylationData,
     out <- unlist(strsplit(v, ",", fixed = TRUE), use.names = FALSE)
     unique(out[nzchar(out)])
   }
-  
+
   # Per-CpG sets: methylated (M) and unmethylated (U) read IDs
   M1 <- split_ids(c1$ONT_Cm)
   U1 <- split_ids(c1$ONT_C)
   M2 <- split_ids(c2$ONT_Cm)
   U2 <- split_ids(c2$ONT_C)
-  
+
   R <- intersect(union(M1, U1), union(M2, U2))
-  
-  C1_C2   <- length(intersect(R, intersect(M1, M2))) 
-  C1_only <- length(intersect(R, intersect(M1, U2))) 
-  C2_only <- length(intersect(R, intersect(U1, M2))) 
-  neither <- length(intersect(R, intersect(U1, U2))) 
-  
+
+  C1_C2   <- length(intersect(R, intersect(M1, M2)))
+  C1_only <- length(intersect(R, intersect(M1, U2)))
+  C2_only <- length(intersect(R, intersect(U1, M2)))
+  neither <- length(intersect(R, intersect(U1, U2)))
+
   list(C1_C2 = C1_C2, C1_only = C1_only, C2_only = C2_only, neither = neither)
-  
+
 }
 
 .getMethylationStatusVectors <- function(c1, c2) {
@@ -245,15 +245,15 @@ computeCoMethylation <- function(methylationData,
   return(list(status1 = status1_filt, status2 = status2_filt))
 }
 
-# 2. Statistical test block 
-.coMethylationFisherTest <- function(c1_c2, c1_only, c2_only, 
+# 2. Statistical test block
+.coMethylationFisherTest <- function(c1_c2, c1_only, c2_only,
                                      neither, alternative= "two.sided"){
     table <- matrix(
       c(c1_c2, c1_only, c2_only, neither),
       nrow = 2, byrow = TRUE,
       dimnames = list(c("c1_yes", "c1_no"), c("c2_yes", "c2_no"))
     )
-    return(fisher.test(table, alternative = alternative)$p.value)
+    return(stats::fisher.test(table, alternative = alternative)$p.value)
 }
 
 ### score test need to change to other methods as detecting the discordant methylation
@@ -269,20 +269,20 @@ computeCoMethylation <- function(methylationData,
 .coMethylationBinomTest <- function(c1_c2, c1_only, c2_only, neither, alternative= "two.sided"){
   n_total <- c1_c2 + c1_only + c2_only + neither
   concordance <- c1_c2 + neither
-  return(binom.test(concordance,n_total,p = 0.5, alternative = alternative)$p.value)
+  return(stats::binom.test(concordance,n_total,p = 0.5, alternative = alternative)$p.value)
 }
 
 .coMethylationPermutationTest <- function(
-    status1, status2, 
-    nperm = 1000, 
-    statfun = function(tab) chisq.test(tab)$statistic){
+    status1, status2,
+    nperm = 1000,
+    statfun = function(tab) stats::chisq.test(tab)$statistic){
   # Create the observed contingency table from the two status vectors
   obs_tab <- table(status1, status2)
   if (!all(dim(obs_tab) == c(2,2))) {
     return(NA_real_)
   }
   obs_stat <- suppressWarnings(statfun(obs_tab))
-  
+
   # Permute status2 nperm times and recalculate the test statistic for each permutation
   perm_stats <- replicate(nperm, {
     perm_status2 <- sample(status2)
@@ -298,8 +298,8 @@ computeCoMethylation <- function(methylationData,
 # 3. Process pairs in one strand; only output adjusted p-values in the results
 .processStrandPairs <- function(in_bin_strand,
                                 minDistance,
-                                maxDistance, 
-                                minCoverage, 
+                                maxDistance,
+                                minCoverage,
                                 pValueThreshold,
                                 test = "fisher",
                                 alternative = "two.sided",
@@ -315,7 +315,7 @@ computeCoMethylation <- function(methylationData,
       coverage[pair_idx[1,]] >= minCoverage & coverage[pair_idx[2,]] >= minCoverage
   )
   if (length(keep) == 0) return(GInteractions())
-  
+
   idx1 <- pair_idx[1, keep]
   idx2 <- pair_idx[2, keep]
   n_pairs <- length(idx1)
@@ -323,14 +323,14 @@ computeCoMethylation <- function(methylationData,
     granges(in_bin_strand[idx1]),
     granges(in_bin_strand[idx2])
   )
-  
+
   # Updated meta columns
   C1_C2 <- integer(n_pairs)
   C1_only <- integer(n_pairs)
   C2_only <- integer(n_pairs)
   neither <- integer(n_pairs)
   pvals <- numeric(n_pairs)
-  
+
 
   # Parallel computation of contingency table statistics for all CpG pairs
   pair_stats <- bplapply(seq_len(n_pairs), function(i) {
@@ -350,25 +350,25 @@ computeCoMethylation <- function(methylationData,
 
   pair_stats_mat <- do.call(rbind, pair_stats)
   if (is.null(dim(pair_stats_mat))) pair_stats_mat <- t(as.matrix(pair_stats_mat))
-  
+
   # Extract each statistic as a numeric vector for all pairs
   C1_C2    <- pair_stats_mat[, "C1_C2"]
   C1_only  <- pair_stats_mat[, "C1_only"]
   C2_only  <- pair_stats_mat[, "C2_only"]
   neither  <- pair_stats_mat[, "neither"]
   pvals    <- pair_stats_mat[, "pval"]
-  
+
   # Subset the results and assign metadata columns to GInteractions object
   results$pre_p.value  <- pvals
   results$C1_C2    <- C1_C2
   results$C1_only  <- C1_only
   results$C2_only  <- C2_only
   results$neither  <- neither
-  
+
   return(results)
 }
 
-### generate the genomic_position formatted by the UCSC or IGV style 
+### generate the genomic_position formatted by the UCSC or IGV style
 .generateGRangesName <- function(regions) {
   mcols(regions)$genomic_position <- paste0(seqnames(regions), ":",start(regions), "-", end(regions))
   return(regions)
