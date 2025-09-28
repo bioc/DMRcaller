@@ -4,7 +4,7 @@
 #' @title Compute PMDs
 #' @param methylationData the methylation data in condition
 #' (see \code{\link{ontSampleGRangesList}}).
-#' @param regions a \code{\link{GRanges}} object with the regions where to 
+#' @param regions a \code{\link[GenomicRanges]{GRanges}} object with the regions where to 
 #' compute the PMDs. If \code{NULL}, the PMDs are computed genome-wide.
 #' @param context the context in which the PMDs are computed (\code{"CG"}, 
 #' \code{"CHG"} or \code{"CHH"}).
@@ -45,7 +45,7 @@
 #' @param cores Integer number of workers (must not exceed BPPARAM$workers).
 #'    This value will automatically set as the maximum number of system workers,
 #'    also able to set as manually.
-#' @return the PMDs stored as a \code{\link{GRanges}} object with the following 
+#' @return the PMDs stored as a \code{\link[GenomicRanges]{GRanges}} object with the following 
 #' metadata columns:
 #' \describe{
 #'  \item{context}{the context in which the PMDs was computed (\code{"CG"}, 
@@ -60,7 +60,6 @@
 #' \code{\link{analyseReadsInsideRegionsForConditionPMD}} and 
 #' \code{\link{PMDsNoiseFilterCG}}
 #' @examples
-#' \dontrun{
 #' # load the ONT methylation data 
 #' data(ontSampleGRangesList)
 #' 
@@ -83,7 +82,8 @@
 #'                                  minReadsPerCytosine = 4, 
 #'                                  cores = 1,
 #'                                  parallel = FALSE)
-#'                                  
+#'  
+#' \dontrun{                                
 #' # compute the PMDs in CG context with neighbourhood method
 #' PMDsNeighbourhoodCG <- computePMDs(ontSampleGRangesList[["GM18501"]],
 #'                                    regions = chr1_ranges,
@@ -647,7 +647,7 @@ computePMDs <- function(methylationData,
 #' @title Filter PMDs 
 #' @param methylationData the methylation data in condition
 #' (see \code{\link{ontSampleGRangesList}}).
-#' @param potentialPMDs a \code{\link{GRanges}} object with potential PMDs 
+#' @param potentialPMDs a \code{\link[GenomicRanges]{GRanges}} object with potential PMDs 
 #' where to compute the PMDs. This can be a a list of gene and/or transposable 
 #' elements coordinates.
 #' @param context the context in which the PMDs are computed (\code{"CG"}, 
@@ -664,7 +664,7 @@ computePMDs <- function(methylationData,
 #' @param cores Integer number of workers (must not exceed BPPARAM$workers).
 #'    This value will automatically set as the maximum number of system workers,
 #'    also able to set as manually.
-#' @return a \code{\link{GRanges}} object with 5 metadata columns that contain 
+#' @return a \code{\link[GenomicRanges]{GRanges}} object with 5 metadata columns that contain 
 #' the PMDs; see \code{\link{computePMDs}}.
 #' @seealso \code{\link{PMDsNoiseFilterCG}}, \code{\link{computePMDs}}, 
 #' \code{\link{analyseReadsInsideRegionsForCondition}}  
@@ -834,7 +834,7 @@ filterPMDs <- function(methylationData,
 #' the new PMDs statistically significant.
 #'
 #' @title Merge PMDs iteratively
-#' @param PMDs the list of PMDs as a \code{\link{GRanges}} object; 
+#' @param PMDs the list of PMDs as a \code{\link[GenomicRanges]{GRanges}} object; 
 #' e.g. see \code{\link{computePMDs}}
 #' @param minGap PMDs separated by a gap of at least \code{minGap} are not 
 #' merged.
@@ -855,7 +855,7 @@ filterPMDs <- function(methylationData,
 #' @param cores Integer number of workers (must not exceed BPPARAM$workers).
 #'    This value will automatically set as the maximum number of system workers,
 #'    also able to set as manually.
-#' @return the reduced list of PMDs as a \code{\link{GRanges}} object; 
+#' @return the reduced list of PMDs as a \code{\link[GenomicRanges]{GRanges}} object; 
 #' e.g. see \code{\link{computePMDs}}
 #' @seealso \code{\link{filterPMDs}}, \code{\link{computePMDs}}, 
 #' \code{\link{analyseReadsInsideRegionsForCondition}} and 
@@ -984,7 +984,7 @@ mergePMDsIteratively <- function(PMDs,
 #' context from a region (e.g. PMDs)
 #'
 #' @title Analyse reads inside regions for condition
-#' @param regions a \code{\link{GRanges}} object with a list of regions on the 
+#' @param regions a \code{\link[GenomicRanges]{GRanges}} object with a list of regions on the 
 #' genome; e.g. could be a list of PMDs
 #' @param methylationData the methylation data in one condition
 #' (see \code{\link{ontSampleGRangesList}}).
@@ -997,7 +997,7 @@ mergePMDsIteratively <- function(PMDs,
 #' @param cores Integer number of workers (must not exceed BPPARAM$workers).
 #'    This value will automatically set as the maximum number of system workers,
 #'    also able to set as manually.
-#' @return a \code{\link{GRanges}} object with additional four metadata columns
+#' @return a \code{\link[GenomicRanges]{GRanges}} object with additional four metadata columns
 #' \describe{
 #'  \item{sumReadsM}{the number of methylated reads}
 #'  \item{sumReadsN}{the total number of reads} 

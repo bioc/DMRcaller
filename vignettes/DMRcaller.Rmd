@@ -1,5 +1,5 @@
 ---
-title: "Overview of the *DMRcaller* package"
+title: "Overview of the DMRcaller package"
 author: "Nicolae Radu Zabet\\thanks{e-mail: \\texttt{r.zabet@qmul.ac.uk}, Blizard
   Institute, Barts and The London School of Medicine and Dentistry, Queen Mary University
   of London, UK}"
@@ -16,9 +16,14 @@ output:
     toc_depth: 3
     number_sections: true
     fig_caption: true
+  BiocStyle::html_document:
 bibliography: DMRcaller.bib
 csl: apa.csl
 link-citations: true
+vignette: >
+  %\VignetteIndexEntry{Overview of the DMRcaller package}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include=FALSE}
@@ -229,7 +234,7 @@ OntChr1CG
 
 -   `genome`: The genome argument is required if `region = FALSE`, and must be a `BSgenome` object from the Bioconductor package *BSgenome*. This allows the function to extract cytosine coordinates and sequence contexts from the full reference genome. For example:
 
-```{r BSgenome_available, echo=TRUE, cache=FALSE, message=FALSE, eval=TRUE}
+```{r BSgenome_available, echo=TRUE, cache=FALSE, message=FALSE, eval=FALSE}
 head(BSgenome::available.genomes())
 
 ```
@@ -545,7 +550,7 @@ legend(x = "topleft", legend=c("Treatment 1", "Treatment 2", "Control 1",
 
 The DMRs are computed using the function `computeDMRsReplicates`, which uses beta regression [@ferrari_2004] to detect differential methylation.
 
-```{r computingBiologicalReplicates, message=FALSE,cache=FALSE}
+```{r computingBiologicalReplicates, message=FALSE,cache=FALSE, eval=TRUE}
 # starting with data joined using joinReplicates
 
 # creating condition vector
@@ -784,7 +789,7 @@ Each significant interaction includes:
 -   **genomic_position** – region ID in UCSC/IGV format (e.g. "`chr1:1522971-1523970`")
 -   **p.value** – FDR-adjusted p-value from Fisher’s exact or permutation test
 
-```{r compute_comethylation_fisher, message=FALSE, cache=FALSE, eval=TRUE}
+```{r compute_comethylation_fisher, message=FALSE, cache=FALSE, eval=FALSE}
 # load ONT methylation and PMD data
 data("ont_gr_GM18870_chr1_PMD_bins_1k")
 data("ont_gr_GM18870_chr1_sorted_bins_1k")

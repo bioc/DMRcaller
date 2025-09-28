@@ -67,7 +67,8 @@
 #' \code{\link{computePMDs}}, \code{\link{computeCoMethylation}},
 #' \code{\link{ontSampleGRangesList}}, \code{\link{GEs_hg38}}
 #'
-#' @examples ##example run require
+#' @examples 
+#' \dontrun{
 #' # load the ONT methylation data
 #' data(ontSampleGRangesList)
 #' # load the gene annotation data
@@ -87,7 +88,7 @@
 #'                minCytosinesCount = 4, minProportionDifference = 0.01,
 #'                minReadsPerCytosine = 3, ciExcludesOne = TRUE,
 #'                varRatioFc = NULL, parallel = TRUE) # parallel recommended
-#'
+#' }
 #' @author Nicolae Radu Zabet and Young Jun Kim
 #' @import stringr
 #' @export
@@ -267,7 +268,7 @@ filterVMRsONT <- function(methylationData1,
 
 }
 
-#' Performs the analysis in all regions in a \code{\link{GRanges}} object,
+#' Performs the analysis in all regions in a \code{\link[GenomicRanges]{GRanges}} object,
 #' computing per-region summary statistics and statistical tests.
 #'
 #' @title Analyse reads inside regions (with VMR testing)

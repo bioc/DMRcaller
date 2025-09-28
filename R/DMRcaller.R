@@ -25,11 +25,11 @@
 #' The most important functions in the \pkg{DMRcaller} are:
 #' \describe{
 #'  \item{\code{\link{readBismark}}}{reads the Bismark CX report files in a
-#'        \code{\link{GRanges}} object.}
+#'        \code{\link[GenomicRanges]{GRanges}} object.}
 #'  \item{\code{\link{readBismarkPool}}}{Reads multiple CX report files and
 #'        pools them together.}
 #'  \item{\code{\link{saveBismark}}}{saves the methylation data stored in a
-#'        \code{\link{GRanges}} object into a Bismark CX report file.}
+#'        \code{\link[GenomicRanges]{GRanges}} object into a Bismark CX report file.}
 #'  \item{\code{\link{selectCytosine}}}{Enumerates cytosine positions in a
 #'        BSgenome reference, optionally filtering by methylation context
 #'        (CG/CHG/CHH), chromosome and genomic region.}
@@ -108,9 +108,13 @@
 #' @import S4Vectors
 #' @import Rcpp
 #' @import Rsamtools
+#' @importFrom grDevices colorRampPalette rainbow
+#' @importFrom graphics axis legend lines mtext par points rect segments text
+#' @importFrom methods is
+#' @importFrom stats na.pass pnorm setNames var.test wilcox.test
+#' @importFrom utils capture.output combn write.table
 #' @importFrom RcppRoll roll_sum
 #' @importFrom parallel mclapply
-#' @useDynLib DMRcaller, .registration = TRUE
 #' @examples
 #' \dontrun{
 #' # load the methylation data
@@ -477,7 +481,7 @@ NULL
 #' A \code{GRanges} object containing simulated date for methylation in four
 #' samples. The conditions assciated witch each sample are a, a, b and b.
 #'
-#' @format A \code{\link{GRanges}} object containing multiple metadata
+#' @format A \code{\link[GenomicRanges]{GRanges}} object containing multiple metadata
 #' columns with the reads from each object passed as parameter
 #'
 #' @source The object was created by calling \code{\link{joinReplicates}}
@@ -500,6 +504,7 @@ NULL
 
 #' @name methylationDataList
 #' @title The methylation data list
+#' @docType data
 #' @description
 #' A \code{GRangesList} object containing the methylation data at each cytosine
 #' location in the genome in  Wild Type (WT) and  met1-3 mutant (met1-3) in
@@ -526,6 +531,7 @@ NULL
 
 #' @name ont_gr_GM18870_chr1_PMD_bins_1k
 #' @title Partially Methilated Domains example
+#' @docType data
 #' @description
 #' Partially methylated domains called on chr1 in GM18870 cells called in 1Kb
 #' bins with \code{computePMDs} function.
@@ -547,6 +553,7 @@ NULL
 
 #' @name ont_gr_GM18870_chr1_sorted_bins_1k
 #' @title The ONT methylation data example
+#' @docType data
 #' @description
 #' A \code{GRanges} object containing cytosine sites, annotated with
 #'   per-site ONT methylation calls
@@ -566,6 +573,7 @@ NULL
 
 #' @name DMRsNoiseFilterCG
 #' @title The DMRs between WT and met1-3 in CG context
+#' @docType data 
 #' @description
 #' A \code{GRangesList} object containing the DMRs between  Wild Type (WT) and
 #' met1-3 mutant (met1-3) in Arabidopsis thaliana
@@ -573,7 +581,7 @@ NULL
 #' 1 Mbp from Chromosome 3 with noise filter method using a triangular kernel
 #' and a windowSize of 100 bp
 #'
-#' @format The \code{\link{GRanges}} element contain 11 metadata columns;
+#' @format The \code{\link[GenomicRanges]{GRanges}} element contain 11 metadata columns;
 #' see \code{\link{computeDMRs}}
 #' @seealso \code{\link{filterDMRs}}, \code{\link{computeDMRs}},
 #' \code{\link{analyseReadsInsideRegionsForCondition}}
@@ -595,8 +603,8 @@ NULL
 #' \url{https://github.com/nanoporetech/dorado?tab=readme-ov-file#dna-models}
 #' to generate the \code{bam} files with \code{dna_r10.4.1_e8.2_400bps_hac@@v5.2.0} as basecalling model
 #' from GM18501 cell line \url{https://s3.amazonaws.com/1000g-ont/index.html?prefix=pod5_data/GM18501_R9/}.
-#' To subset, call the \code{bam} file by \code{\link{scanBam}} function from
-#' \code{\link{Rsamtools}} package and randomly select the 5 sequences.
+#' To subset, call the \code{bam} file by \code{\link[Rsamtools]{scanBam}} function from
+#' \code{\link[Rsamtools]{Rsamtools}} package and randomly select the 5 sequences.
 #' and repackaging the subsetted \code{list} to the \code{bam} file for test running.
 #'
 NULL
@@ -604,6 +612,7 @@ NULL
 
 #' @name ontSampleGRangesList
 #' @title The ONT methylation data list
+#' @docType data
 #' @description
 #' A \code{GRangesList} object containing the methylation data at each cytosine
 #' location in the genome in  GM18501 and  GM18876 B-Lymphocyte cell lines in
@@ -650,13 +659,14 @@ NULL
 
 #' @name PMDsBinsCG
 #' @title The PMDs between GM18501 and GM18876 using Bins method
+#' @docType data
 #' @description
 #' A \code{GRangesList} object containing the PMDs between GM18501 and
 #' GM18876 B-Lymphocyte cell lines in Homo sapiens
 #' (see \code{\link{ontSampleGRangesList}}). The PMDs were computed on the
 #' 1.5 ~ 2 Mbp from Chromosome 1 with bins method using binSize of 1 kbp
 #'
-#' @format The \code{\link{GRanges}} element contain 5 metadata columns;
+#' @format The \code{\link[GenomicRanges]{GRanges}} element contain 5 metadata columns;
 #' see \code{\link{computePMDs}}
 #' @seealso \code{\link{filterPMDs}}, \code{\link{computePMDs}},
 #' \code{\link{analyseReadsInsideRegionsForConditionPMD}}
@@ -667,6 +677,7 @@ NULL
 
 #' @name PMDsNoiseFilterCG
 #' @title The PMDs between GM18501 and GM18876 using Noise_filter method
+#' @docType data
 #' @description
 #' A \code{GRangesList} object containing the PMDs between GM18501 and
 #' GM18876 B-Lymphocyte cell lines in Homo sapiens
@@ -674,7 +685,7 @@ NULL
 #' 1.5 ~ 2 Mbp from Chromosome 1 with noise filter method using a triangular kernel
 #' and a windowSize of 100 bp
 #'
-#' @format The \code{\link{GRanges}} element contain 5 metadata columns;
+#' @format The \code{\link[GenomicRanges]{GRanges}} element contain 5 metadata columns;
 #' see \code{\link{computePMDs}}
 #' @seealso \code{\link{filterPMDs}}, \code{\link{computePMDs}},
 #' \code{\link{analyseReadsInsideRegionsForConditionPMD}}

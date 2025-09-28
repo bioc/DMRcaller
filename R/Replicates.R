@@ -4,29 +4,29 @@
 #' @title Joins together two GRange objects in a single containing all the
 #' replicates
 #'
-#' @param methylationData1 the methylation data stored as a \code{\link{GRanges}}
+#' @param methylationData1 the methylation data stored as a \code{\link[GenomicRanges]{GRanges}}
 #' object with four metadata columns (see \code{\link{methylationDataList}}).
 #'
-#' @param methylationData2 the methylation data stored as a \code{\link{GRanges}}
+#' @param methylationData2 the methylation data stored as a \code{\link[GenomicRanges]{GRanges}}
 #' object with four metadata columns (see \code{\link{methylationDataList}}).
 #'
 #' @param usecomplete Boolean, determine wheter, when the two dataset differ for
 #' number of cytosines, if the smaller dataset should be added with zero reads
 #' to match the bigger dataset.
 #'
-#' @return returns a \code{\link{GRanges}} object containing multiple metadata
+#' @return returns a \code{\link[GenomicRanges]{GRanges}} object containing multiple metadata
 #' columns with the reads from each object passed as parameter
 #'
 #' @examples
 #'
-#' \dontrun{
+#'
 #' # load the methylation data
 #' data(methylationDataList)
 #'
 #' # Joins the wildtype and the mutant in a single object
 #' joined_data <- joinReplicates(methylationDataList[["WT"]],
 #'                               methylationDataList[["met1-3"]], FALSE)
-#' }
+#'
 #'
 #' @author Alessandro Pio Greco and Nicolae Radu Zabet
 #'
@@ -162,7 +162,7 @@ joinReplicates <- function(methylationData1, methylationData2, usecomplete = FAL
 #' @param condition a vector of strings indicating the conditions for each
 #' sample in \code{methylationData}. Two different values are allowed
 #' (for the two conditions).
-#' @param regions a \code{\link{GRanges}} object with the regions where to
+#' @param regions a \code{\link[GenomicRanges]{GRanges}} object with the regions where to
 #' compute the DMRs. If \code{NULL}, the DMRs are computed genome-wide.
 #' @param context the context in which the DMRs are computed (\code{"CG"},
 #' \code{"CHG"} or \code{"CHH"}).
@@ -204,7 +204,7 @@ joinReplicates <- function(methylationData1, methylationData2, usecomplete = FAL
 #' @param cores Integer number of workers (must not exceed BPPARAM$workers).
 #'    This value will automatically set as the maximum number of system workers,
 #'    also able to set as manually.
-#' @return the DMRs stored as a \code{\link{GRanges}} object with the following
+#' @return the DMRs stored as a \code{\link[GenomicRanges]{GRanges}} object with the following
 #' metadata columns:
 #' \describe{
 #'  \item{direction}{a number indicating whether the region lost (-1)  or gain
@@ -233,10 +233,10 @@ joinReplicates <- function(methylationData1, methylationData2, usecomplete = FAL
 #'
 #' # compute the DMRs in CG context with neighbourhood method
 #'
-#' creating condition vector
+#' # creating condition vector
 #' condition <- c("a", "a", "b", "b")
 #'
-#' computing DMRs using the neighbourhood method
+#' # computing DMRs using the neighbourhood method
 #' DMRsReplicatesNeighbourhood <- computeDMRsReplicates(methylationData = syntheticDataReplicates,
 #'                                                      condition = condition,
 #'                                                      regions = NULL,
@@ -730,7 +730,6 @@ computeDMRsReplicates <- function(methylationData,
   return(result)
 }
 
-
 #https://stats.stackexchange.com/questions/220868/questionable-beta-regression-results
 #https://stats.stackexchange.com/questions/89999/how-to-replicate-statas-robust-binomial-glm-for-proportion-data-in-r/205040#205040
 .suitableForBetaReg <- function(y){
@@ -833,19 +832,19 @@ computeDMRsReplicates <- function(methylationData,
   return(computedDMRsproportions)
 }
 
-#' Performs the analysis in equal width regions of an \code{\link{GRanges}}
+#' Performs the analysis in equal width regions of an \code{\link[GenomicRanges]{GRanges}}
 #' object
 #'
 #' @title Analyse reads inside regions
-#' @param methylationData a \code{\link{GRanges}} object with five metadata
+#' @param methylationData a \code{\link[GenomicRanges]{GRanges}} object with five metadata
 #' columns; see \code{\link{methylationDataList}}
-#' @param currentRegion a \code{\link{GRanges}} object with the identified regions
+#' @param currentRegion a \code{\link[GenomicRanges]{GRanges}} object with the identified regions
 #' @param condition The vector containing the two conditions for the experiment.
 #' @param pseudocountM numerical value to be added to the methylated reads
 #' before modelling beta regression.
 #' @param pseudocountN numerical value to be added to the total reads
 #' before modelling beta regression.
-#' @return a \code{\link{GRanges}} object with eaual sized tiles of the regions.
+#' @return a \code{\link[GenomicRanges]{GRanges}} object with eaual sized tiles of the regions.
 #' The object consists of the following metadata
 #' \describe{
 #'  \item{sumReadsM1}{the number of methylated reads in condition 1}
@@ -968,16 +967,16 @@ computeDMRsReplicates <- function(methylationData,
 
 }
 
-#' Performs the analysis in all regions in a \code{\link{GRanges}} object
+#' Performs the analysis in all regions in a \code{\link[GenomicRanges]{GRanges}} object
 #'
 #' @title Analyse reads inside regions
-#' @param methylationData a \code{\link{GRanges}} object with five metadata
+#' @param methylationData a \code{\link[GenomicRanges]{GRanges}} object with five metadata
 #' columns see \code{\link{methylationDataList}}
-#' @param regions a \code{\link{GRanges}} object with the identified regions
+#' @param regions a \code{\link[GenomicRanges]{GRanges}} object with the identified regions
 #' @param condition The vector containing the two conditions for the experiment.
 #' @param m indexes of methylated reads for creation of the proportions matrix
 #' @param n indexes of total reads for creation of the proportions matrix
-#' @return a \code{\link{GRanges}} object with eaual sized tiles of the regions.
+#' @return a \code{\link[GenomicRanges]{GRanges}} object with eaual sized tiles of the regions.
 #' The object consists of the following metadata
 #' \describe{
 #'  \item{sumReadsM1}{the number of methylated reads in condition 1}

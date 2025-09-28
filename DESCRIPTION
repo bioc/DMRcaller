@@ -1,6 +1,6 @@
 Package: DMRcaller
 Type: Package
-Title: Differentially Methylated Regions caller
+Title: Differentially Methylated Regions Caller
 Version: 1.41.2
 Date: 2019-01-18
 Encoding: UTF-8
@@ -22,15 +22,14 @@ Description: Uses Bisulfite sequencing data in two conditions and
         files produced by Bismark and the output is a list of DMRs
         stored as GRanges objects.
 License: GPL-3
-LinkingTo: Rcpp
 LazyLoad: yes
 Imports: parallel, Rcpp, RcppRoll, betareg, grDevices, graphics, methods, stats,
         utils, Rsamtools, GenomicRanges, GenomicAlignments, Biostrings, BSgenome, BiocManager,
-        S4Vectors, IRanges,  InteractionSet, stringr, inflection, BiocParallel, methods, Seqinfo
-Depends: R (>= 3.5), GenomicRanges, IRanges, S4Vectors
-Suggests: knitr, RUnit, BiocGenerics, rmarkdown
+        S4Vectors, IRanges,  InteractionSet, stringr, inflection, BiocParallel, Seqinfo
+Depends: R (>= 3.5), GenomicRanges, IRanges, S4Vectors 
+Suggests: knitr, RUnit, BiocGenerics, rmarkdown, bookdown, BiocStyle, betareg, rtracklayer
 biocViews: DifferentialMethylation, DNAMethylation, Software,
-        Sequencing, NanoporeSequencing, LongReadSequencing, Coverage
+        Sequencing, Coverage
 VignetteBuilder: knitr
 NeedsCompilation: no
 RoxygenNote: 7.3.3

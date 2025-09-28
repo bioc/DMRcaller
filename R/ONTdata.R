@@ -37,9 +37,6 @@
 #' \dontrun{
 #' library(BSgenome.Hsapiens.UCSC.hg38)
 #'
-#' # All cytosines in hg38:
-#' gr_all <- selectCytosine()
-#'
 #' # Only CpG sites on chr1 and chr2:
 #' gr_chr1_2 <- selectCytosine(context="CG", chr=c("chr1","chr2"))
 #'
@@ -385,7 +382,7 @@ readONTbam <- function(bamfile,
   # )
 
   # After sb is loaded and filtered
-  aln <- GAlignments(seqnames=sb$rname, pos=sb$pos, cigar=sb$cigar, seqlengths=sb$seq, strand = strands)
+  aln <- GAlignments(seqnames=sb$rname, pos=sb$pos, cigar=sb$cigar, seq=sb$seq, strand = strands)
   ref_seq_list <- getSeq(genome, seqnames(aln), start(aln), end(aln))
   aligned_seq_list <- sequenceLayer(sb$seq, cigar=sb$cigar, from="query", to="reference")
 

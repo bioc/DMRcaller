@@ -264,13 +264,13 @@
 
 
 
-#' Performs the analysis in all regions in a \code{\link{GRanges}} object
+#' Performs the analysis in all regions in a \code{\link[GenomicRanges]{GRanges}} object
 #'
 #' @title Analyse reads inside regions
-#' @param methylationData a \code{\link{GRanges}} object with five metadata 
+#' @param methylationData a \code{\link[GenomicRanges]{GRanges}} object with five metadata 
 #' columns see \code{\link{methylationDataList}}
-#' @param regions a \code{\link{GRanges}} object with the identified regions
-#' @return a \code{\link{GRanges}} object with eaual sized tiles of the regions. 
+#' @param regions a \code{\link[GenomicRanges]{GRanges}} object with the identified regions
+#' @return a \code{\link[GenomicRanges]{GRanges}} object with eaual sized tiles of the regions. 
 #' The object consists of the following metadata 
 #' \describe{
 #'  \item{sumReadsM1}{the number of methylated reads in condition 1}
@@ -329,13 +329,13 @@
   return(sum(methylationData$readsN2))
 }
 
-#' Performs the analysis in all regions in a \code{\link{GRanges}} object
+#' Performs the analysis in all regions in a \code{\link[GenomicRanges]{GRanges}} object
 #'
 #' @title Analyse reads inside regions
-#' @param methylationData a \code{\link{GRanges}} object with five metadata 
+#' @param methylationData a \code{\link[GenomicRanges]{GRanges}} object with five metadata 
 #' columns see \code{\link{methylationDataList}}
-#' @param regions a \code{\link{GRanges}} object with the identified regions
-#' @return a \code{\link{GRanges}} object with eaual sized tiles of the regions. 
+#' @param regions a \code{\link[GenomicRanges]{GRanges}} object with the identified regions
+#' @return a \code{\link[GenomicRanges]{GRanges}} object with eaual sized tiles of the regions. 
 #' The object consists of the following metadata 
 #' \describe{
 #'  \item{sumReadsM}{the number of methylated reads in condition 1}
@@ -403,9 +403,9 @@
 #' This function counts the number of cytosines in each DMR
 #'
 #' @title Count cytosines inside
-#' @param methylationData a \code{\link{GRanges}} object with five metadata 
+#' @param methylationData a \code{\link[GenomicRanges]{GRanges}} object with five metadata 
 #' columns; see \code{\link{methylationDataList}}
-#' @param regions a \code{\link{GRanges}} with the computed regions
+#' @param regions a \code{\link[GenomicRanges]{GRanges}} with the computed regions
 #' @return a \code{vector} with the number of cytosines in each DMR
 #'  
 #' @author Jonathan Michael Foonlan Tsang
@@ -414,14 +414,14 @@
 }
 
 
-#' Performs the analysis in equal width regions of an \code{\link{GRanges}} 
+#' Performs the analysis in equal width regions of an \code{\link[GenomicRanges]{GRanges}} 
 #' object
 #'
 #' @title Analyse reads inside regions
-#' @param methylationData a \code{\link{GRanges}} object with five metadata 
+#' @param methylationData a \code{\link[GenomicRanges]{GRanges}} object with five metadata 
 #' columns; see \code{\link{methylationDataList}}
-#' @param regions a \code{\link{GRanges}} object with the identified regions
-#' @return a \code{\link{GRanges}} object with eaual sized tiles of the regions. 
+#' @param regions a \code{\link[GenomicRanges]{GRanges}} object with the identified regions
+#' @return a \code{\link[GenomicRanges]{GRanges}} object with eaual sized tiles of the regions. 
 #' The object consists of the following metadata 
 #' \describe{
 #'  \item{sumReadsM1}{the number of methylated reads in condition 1}
@@ -474,7 +474,7 @@
 #' objects
 #'
 #' @title .splitGRangesEqualy
-#' @param regions a \code{\link{GRanges}} object 
+#' @param regions a \code{\link[GenomicRanges]{GRanges}} object 
 #' @param breaks number of elements to break the GRanges
 #' @return a \code{list} consisting of GRanges objects of same total width
 #'  
@@ -487,14 +487,14 @@
 
 
 
-#' Performs the analysis in equal width regions of an \code{\link{GRanges}} 
+#' Performs the analysis in equal width regions of an \code{\link[GenomicRanges]{GRanges}} 
 #' object
 #'
 #' @title Analyse reads inside regions for one sample
-#' @param methylationData a \code{\link{GRanges}} object with five metadata 
+#' @param methylationData a \code{\link[GenomicRanges]{GRanges}} object with five metadata 
 #' columns; see \code{\link{methylationDataList}}.
-#' @param bins a \code{\link{GRanges}} object with the bins
-#' @return a \code{\link{GRanges}} object with eaual sized tiles of the regions. 
+#' @param bins a \code{\link[GenomicRanges]{GRanges}} object with the bins
+#' @return a \code{\link[GenomicRanges]{GRanges}} object with eaual sized tiles of the regions. 
 #' The object consists of the following metadata 
 #' \describe{
 #'  \item{sumReadsM}{the number of methylated reads}
@@ -532,9 +532,9 @@
 #' Counts the number of cytosines in all the regions
 #'
 #' @title Count total number of Cytosines
-#' @param methylationData a \code{\link{GRanges}} object with five metadata 
+#' @param methylationData a \code{\link[GenomicRanges]{GRanges}} object with five metadata 
 #' columns: see \code{\link{methylationDataList}}
-#' @param regions a \code{\link{GRanges}} object with the identified regions
+#' @param regions a \code{\link[GenomicRanges]{GRanges}} object with the identified regions
 #' @return a the total number of Cytosines
 #'       
 #' @author Radu Zabet
@@ -549,13 +549,13 @@
 }
 
 
-#' Performs the analysis in all regions in a \code{\link{GRanges}} object
+#' Performs the analysis in all regions in a \code{\link[GenomicRanges]{GRanges}} object
 #'
 #' @title Analyse reads inside regions
-#' @param methylationData a \code{\link{GRanges}} object with four metadata 
-#' columns; see \code{\link{loadMethylationDataList}}.
-#' @param regions a \code{\link{GRanges}} object with the identified regions
-#' @return a \code{\link{GRanges}} object with eaual sized tiles of the regions. 
+#' @param methylationData a \code{\link[GenomicRanges]{GRanges}} object with four metadata 
+#' columns; see \code{\link{MethylationDataList}}.
+#' @param regions a \code{\link[GenomicRanges]{GRanges}} object with the identified regions
+#' @return a \code{\link[GenomicRanges]{GRanges}} object with eaual sized tiles of the regions. 
 #' The object consists of the following metadata.
 #' \describe{
 #'  \item{sumReadsM}{the number of methylated reads in condition 1}
@@ -771,14 +771,14 @@
   return(PMDs)
 }
 
-#' Performs the analysis in all regions in a \code{\link{GRanges}} object for 
+#' Performs the analysis in all regions in a \code{\link[GenomicRanges]{GRanges}} object for 
 #' PMD calculation
 #'
 #' @title Analyse reads inside regions
-#' @param methylationData a \code{\link{GRanges}} object with five metadata 
+#' @param methylationData a \code{\link[GenomicRanges]{GRanges}} object with five metadata 
 #' columns see \code{\link{methylationDataList}}
-#' @param regions a \code{\link{GRanges}} object with the identified regions
-#' @return a \code{\link{GRanges}} object with eaual sized tiles of the regions. 
+#' @param regions a \code{\link[GenomicRanges]{GRanges}} object with the identified regions
+#' @return a \code{\link[GenomicRanges]{GRanges}} object with eaual sized tiles of the regions. 
 #' The object consists of the following metadata 
 #' \describe{
 #'  \item{sumReadsM}{the number of methylated reads}
@@ -822,14 +822,14 @@
   return(sum(methylationData$readsN))
 }
 
-#' Performs the analysis in equal width regions of an \code{\link{GRanges}} 
+#' Performs the analysis in equal width regions of an \code{\link[GenomicRanges]{GRanges}} 
 #' object
 #'
 #' @title Analyse reads inside regions
-#' @param methylationData a \code{\link{GRanges}} object with five metadata 
+#' @param methylationData a \code{\link[GenomicRanges]{GRanges}} object with five metadata 
 #' columns; see \code{\link{methylationDataList}}
-#' @param regions a \code{\link{GRanges}} object with the identified regions
-#' @return a \code{\link{GRanges}} object with eaual sized tiles of the regions. 
+#' @param regions a \code{\link[GenomicRanges]{GRanges}} object with the identified regions
+#' @return a \code{\link[GenomicRanges]{GRanges}} object with eaual sized tiles of the regions. 
 #' The object consists of the following metadata 
 #' \describe{
 #'  \item{sumReadsM1}{the number of methylated reads in condition 1}
