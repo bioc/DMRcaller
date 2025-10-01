@@ -21,7 +21,7 @@ filterPMDs(
 \item{methylationData}{the methylation data in condition
 (see \code{\link{ontSampleGRangesList}}).}
 
-\item{potentialPMDs}{a \code{\link{GRanges}} object with potential PMDs 
+\item{potentialPMDs}{a \code{\link[GenomicRanges]{GRanges}} object with potential PMDs 
 where to compute the PMDs. This can be a a list of gene and/or transposable 
 elements coordinates.}
 
@@ -48,7 +48,7 @@ This value will automatically set as the maximum number of system workers,
 also able to set as manually.}
 }
 \value{
-a \code{\link{GRanges}} object with 5 metadata columns that contain 
+a \code{\link[GenomicRanges]{GRanges}} object with 5 metadata columns that contain 
 the PMDs; see \code{\link{computePMDs}}.
 }
 \description{

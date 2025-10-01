@@ -24,7 +24,7 @@ computeVMDs(
 \item{methylationData}{the methylation data in condition
 (see \code{\link{ontSampleGRangesList}}).}
 
-\item{regions}{a \code{\link{GRanges}} object with the regions where to 
+\item{regions}{a \code{\link[GenomicRanges]{GRanges}} object with the regions where to 
 compute the VMDs. If \code{NULL}, the VMDs are computed genome-wide.}
 
 \item{context}{the context in which the VMDs are computed (\code{"CG"}, 
@@ -71,7 +71,7 @@ This value will automatically set as the maximum number of system workers,
 also able to set as manually.}
 }
 \value{
-the VMDs stored as a \code{\link{GRanges}} object with the following 
+the VMDs stored as a \code{\link[GenomicRanges]{GRanges}} object with the following 
 metadata columns:
 \describe{
  \item{context}{the context in which the VMDs was computed (\code{"CG"}, 

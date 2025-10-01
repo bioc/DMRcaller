@@ -26,7 +26,7 @@ plotMethylationProfileFromData(
 \item{methylationData2}{the methylation data in condition 2
 (see \code{\link{methylationDataList}}). This is optional.}
 
-\item{regions}{a \code{\link{GRanges}} object with the regions where to plot
+\item{regions}{a \code{\link[GenomicRanges]{GRanges}} object with the regions where to plot
 the profiles.}
 
 \item{conditionsNames}{the names of the two conditions. This will be used to

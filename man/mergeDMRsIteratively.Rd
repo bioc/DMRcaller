@@ -22,7 +22,7 @@ mergeDMRsIteratively(
 )
 }
 \arguments{
-\item{DMRs}{the list of DMRs as a \code{\link{GRanges}} object; 
+\item{DMRs}{the list of DMRs as a \code{\link[GenomicRanges]{GRanges}} object; 
 e.g. see \code{\link{computeDMRs}}}
 
 \item{minGap}{DMRs separated by a gap of at least \code{minGap} are not 
@@ -69,7 +69,7 @@ This value will automatically set as the maximum number of system workers,
 also able to set as manually.}
 }
 \value{
-the reduced list of DMRs as a \code{\link{GRanges}} object; 
+the reduced list of DMRs as a \code{\link[GenomicRanges]{GRanges}} object; 
 e.g. see \code{\link{computeDMRs}}
 }
 \description{

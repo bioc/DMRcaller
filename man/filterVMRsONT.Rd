@@ -100,7 +100,7 @@ the 95% confidence interval from the F-test to exclude 1 (\code{ciExcludesOne}) 
 apply a fold-change cutoff on the variance ratio (\code{varRatioFc}).
 }
 \examples{
-##example run require
+\dontrun{
 # load the ONT methylation data
 data(ontSampleGRangesList)
 # load the gene annotation data
@@ -120,7 +120,7 @@ VMRsGenesCG <- filterVMRsONT(ontSampleGRangesList[["GM18501"]],
                minCytosinesCount = 4, minProportionDifference = 0.01,
                minReadsPerCytosine = 3, ciExcludesOne = TRUE,
                varRatioFc = NULL, parallel = TRUE) # parallel recommended
-
+}
 }
 \seealso{
 \code{\link{readONTbam}},

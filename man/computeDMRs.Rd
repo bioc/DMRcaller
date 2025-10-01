@@ -33,7 +33,7 @@ computeDMRs(
 \item{methylationData2}{the methylation data in condition 2
 (see \code{\link{methylationDataList}}).}
 
-\item{regions}{a \code{\link{GRanges}} object with the regions where to 
+\item{regions}{a \code{\link[GenomicRanges]{GRanges}} object with the regions where to 
 compute the DMRs. If \code{NULL}, the DMRs are computed genome-wide.}
 
 \item{context}{the context in which the DMRs are computed (\code{"CG"}, 
@@ -103,7 +103,7 @@ This value will automatically set as the maximum number of system workers,
 also able to set as manually.}
 }
 \value{
-the DMRs stored as a \code{\link{GRanges}} object with the following 
+the DMRs stored as a \code{\link[GenomicRanges]{GRanges}} object with the following 
 metadata columns:
 \describe{
  \item{direction}{a number indicating whether the region lost (-1)  or gain 

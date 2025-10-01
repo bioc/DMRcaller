@@ -7,12 +7,12 @@
 poolMethylationDatasets(methylationDataList)
 }
 \arguments{
-\item{methylationDataList}{a \code{\link{GRangesList}} object where each
-element of the list is a \code{\link{GRanges}} object with the methylation
+\item{methylationDataList}{a \code{\link[GenomicRanges]{GRangesList}} object where each
+element of the list is a \code{\link[GenomicRanges]{GRanges}} object with the methylation
 data in the corresponding condition (see \code{\link{methylationDataList}}).}
 }
 \value{
-the methylation data stored as a \code{\link{GRanges}}
+the methylation data stored as a \code{\link[GenomicRanges]{GRanges}}
 object with four metadata columns (see \code{\link{methylationDataList}}).
 If the Granges are from ONT datasets, its have six metedata columns include as
 ONT_Cm and ONT_C (see \code{\link{readONTbam}}).

@@ -12,10 +12,10 @@ poolTwoMethylationDatasets(
 )
 }
 \arguments{
-\item{methylationData1}{a \code{\link{GRanges}} object with the methylation
+\item{methylationData1}{a \code{\link[GenomicRanges]{GRanges}} object with the methylation
 data (see \code{\link{methylationDataList}}).}
 
-\item{methylationData2}{a \code{\link{GRanges}} object with the methylation
+\item{methylationData2}{a \code{\link[GenomicRanges]{GRanges}} object with the methylation
 data (see \code{\link{methylationDataList}}).}
 
 \item{sample1_name}{the label used for sample 1.}
@@ -23,7 +23,7 @@ data (see \code{\link{methylationDataList}}).}
 \item{sample2_name}{the label used for sample 2.}
 }
 \value{
-the methylation data stored as a \code{\link{GRanges}}
+the methylation data stored as a \code{\link[GenomicRanges]{GRanges}}
 object with four metadata columns (see \code{\link{methylationDataList}}).
 If the Granges are from ONT datasets, its have six metedata columns include as
 ONT_Cm and ONT_C (see \code{\link{readONTbam}}).

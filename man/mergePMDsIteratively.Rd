@@ -19,7 +19,7 @@ mergePMDsIteratively(
 )
 }
 \arguments{
-\item{PMDs}{the list of PMDs as a \code{\link{GRanges}} object; 
+\item{PMDs}{the list of PMDs as a \code{\link[GenomicRanges]{GRanges}} object; 
 e.g. see \code{\link{computePMDs}}}
 
 \item{minGap}{PMDs separated by a gap of at least \code{minGap} are not 
@@ -52,7 +52,7 @@ This value will automatically set as the maximum number of system workers,
 also able to set as manually.}
 }
 \value{
-the reduced list of PMDs as a \code{\link{GRanges}} object; 
+the reduced list of PMDs as a \code{\link[GenomicRanges]{GRanges}} object; 
 e.g. see \code{\link{computePMDs}}
 }
 \description{

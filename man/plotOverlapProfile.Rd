@@ -16,10 +16,10 @@ plotOverlapProfile(
 )
 }
 \arguments{
-\item{overlapsProfiles1}{a  \code{\link{GRanges}} object with the overlaps
+\item{overlapsProfiles1}{a  \code{\link[GenomicRanges]{GRanges}} object with the overlaps
 profile; see \code{\link{computeOverlapProfile}}.}
 
-\item{overlapsProfiles2}{a  \code{\link{GRanges}} object with the overlaps
+\item{overlapsProfiles2}{a  \code{\link[GenomicRanges]{GRanges}} object with the overlaps
 profile; see \code{\link{computeOverlapProfile}}. This is optional. For
 example, one can be use \code{overlapsProfiles1} to display hypomethylated
 regions and \code{overlapsProfiles2} the hypermethylated regions.}

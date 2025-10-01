@@ -7,7 +7,7 @@
 saveBismark(methylationData, filename)
 }
 \arguments{
-\item{methylationData}{the methylation data stored as a \code{\link{GRanges}}
+\item{methylationData}{the methylation data stored as a \code{\link[GenomicRanges]{GRanges}}
 object with four metadata columns (see \code{\link{methylationDataList}}).}
 
 \item{filename}{the filename where the data will be saved.}
@@ -16,7 +16,7 @@ object with four metadata columns (see \code{\link{methylationDataList}}).}
 Invisibly returns \code{NULL}
 }
 \description{
-This function takes as input a \code{\link{GRanges}} object generated with
+This function takes as input a \code{\link[GenomicRanges]{GRanges}} object generated with
 \code{\link{readBismark}} and saves the output to a file using
 Bismark CX report format.
 }

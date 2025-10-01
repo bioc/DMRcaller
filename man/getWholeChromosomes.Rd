@@ -7,14 +7,14 @@
 getWholeChromosomes(methylationData)
 }
 \arguments{
-\item{methylationData}{the methylation data stored as a \code{\link{GRanges}}
+\item{methylationData}{the methylation data stored as a \code{\link[GenomicRanges]{GRanges}}
 object with four metadata columns (see \code{\link{methylationDataList}}).}
 }
 \value{
-a \code{\link{GRanges}} object will all chromosomes.
+a \code{\link[GenomicRanges]{GRanges}} object will all chromosomes.
 }
 \description{
-Returns a \code{\link{GRanges}} object spanning from the first cytocine until
+Returns a \code{\link[GenomicRanges]{GRanges}} object spanning from the first cytocine until
 the last one on each chromosome
 }
 \examples{

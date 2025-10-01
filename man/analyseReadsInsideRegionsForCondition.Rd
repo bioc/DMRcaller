@@ -15,7 +15,7 @@ analyseReadsInsideRegionsForCondition(
 )
 }
 \arguments{
-\item{regions}{a \code{\link{GRanges}} object with a list of regions on the 
+\item{regions}{a \code{\link[GenomicRanges]{GRanges}} object with a list of regions on the 
 genome; e.g. could be a list of DMRs}
 
 \item{methylationData}{the methylation data in one condition
@@ -36,7 +36,7 @@ This value will automatically set as the maximum number of system workers,
 also able to set as manually.}
 }
 \value{
-a \code{\link{GRanges}} object with additional four metadata columns
+a \code{\link[GenomicRanges]{GRanges}} object with additional four metadata columns
 \describe{
  \item{sumReadsM}{the number of methylated reads}
  \item{sumReadsN}{the total number of reads} 

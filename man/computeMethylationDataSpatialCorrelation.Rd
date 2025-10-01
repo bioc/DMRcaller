@@ -12,10 +12,10 @@ computeMethylationDataSpatialCorrelation(
 )
 }
 \arguments{
-\item{methylationData}{the methylation data stored as a \code{\link{GRanges}}
+\item{methylationData}{the methylation data stored as a \code{\link[GenomicRanges]{GRanges}}
 object with four metadata columns (see \code{\link{methylationDataList}}).}
 
-\item{regions}{a \code{\link{GRanges}} object with the regions where to
+\item{regions}{a \code{\link[GenomicRanges]{GRanges}} object with the regions where to
 compute the correlation. If \code{NULL}, the correlation is computed
 genome-wide.}
 
@@ -38,7 +38,7 @@ a \code{vector} of specified thresholds.
 }
 \examples{
 
-\dontrun{
+
 # load the methylation data
 data(methylationDataList)
 
@@ -48,7 +48,7 @@ correlation_CG_wt <- computeMethylationDataSpatialCorrelation(methylationDataLis
                  context="CG", distances=distances)
 
 
-}
+
 }
 \seealso{
 \code{\link{plotMethylationDataSpatialCorrelation}},

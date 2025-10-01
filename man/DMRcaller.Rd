@@ -32,11 +32,11 @@ For Nanopore data, the input is an indexed ONT BAM with calling
 The most important functions in the \pkg{DMRcaller} are:
 \describe{
  \item{\code{\link{readBismark}}}{reads the Bismark CX report files in a
-       \code{\link{GRanges}} object.}
+       \code{\link[GenomicRanges]{GRanges}} object.}
  \item{\code{\link{readBismarkPool}}}{Reads multiple CX report files and
        pools them together.}
  \item{\code{\link{saveBismark}}}{saves the methylation data stored in a
-       \code{\link{GRanges}} object into a Bismark CX report file.}
+       \code{\link[GenomicRanges]{GRanges}} object into a Bismark CX report file.}
  \item{\code{\link{selectCytosine}}}{Enumerates cytosine positions in a
        BSgenome reference, optionally filtering by methylation context
        (CG/CHG/CHH), chromosome and genomic region.}

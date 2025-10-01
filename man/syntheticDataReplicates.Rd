@@ -5,7 +5,7 @@
 \alias{syntheticDataReplicates}
 \title{Simulated data for biological replicates}
 \format{
-A \code{\link{GRanges}} object containing multiple metadata
+A \code{\link[GenomicRanges]{GRanges}} object containing multiple metadata
 columns with the reads from each object passed as parameter
 }
 \source{

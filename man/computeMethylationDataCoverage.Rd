@@ -13,10 +13,10 @@ computeMethylationDataCoverage(
 )
 }
 \arguments{
-\item{methylationData}{the methylation data stored as a \code{\link{GRanges}}
+\item{methylationData}{the methylation data stored as a \code{\link[GenomicRanges]{GRanges}}
 object with four metadata columns (see \code{\link{methylationDataList}}).}
 
-\item{regions}{a \code{\link{GRanges}} object with the regions where to
+\item{regions}{a \code{\link[GenomicRanges]{GRanges}} object with the regions where to
 compute the coverage. If \code{NULL}, the coverage is computed genome-wide.}
 
 \item{context}{the context in which the DMRs are computed (\code{"CG"},

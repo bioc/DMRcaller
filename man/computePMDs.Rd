@@ -28,7 +28,7 @@ computePMDs(
 \item{methylationData}{the methylation data in condition
 (see \code{\link{ontSampleGRangesList}}).}
 
-\item{regions}{a \code{\link{GRanges}} object with the regions where to 
+\item{regions}{a \code{\link[GenomicRanges]{GRanges}} object with the regions where to 
 compute the PMDs. If \code{NULL}, the PMDs are computed genome-wide.}
 
 \item{context}{the context in which the PMDs are computed (\code{"CG"}, 
@@ -86,7 +86,7 @@ This value will automatically set as the maximum number of system workers,
 also able to set as manually.}
 }
 \value{
-the PMDs stored as a \code{\link{GRanges}} object with the following 
+the PMDs stored as a \code{\link[GenomicRanges]{GRanges}} object with the following 
 metadata columns:
 \describe{
  \item{context}{the context in which the PMDs was computed (\code{"CG"}, 
@@ -103,7 +103,6 @@ This function computes the partially methylated domains between pre-set
 min and max proportion values.
 }
 \examples{
-\dontrun{
 # load the ONT methylation data 
 data(ontSampleGRangesList)
 
@@ -126,7 +125,8 @@ PMDsNoiseFilterCG <- computePMDs(ontSampleGRangesList[["GM18501"]],
                                  minReadsPerCytosine = 4, 
                                  cores = 1,
                                  parallel = FALSE)
-                                 
+ 
+\dontrun{                                
 # compute the PMDs in CG context with neighbourhood method
 PMDsNeighbourhoodCG <- computePMDs(ontSampleGRangesList[["GM18501"]],
                                    regions = chr1_ranges,

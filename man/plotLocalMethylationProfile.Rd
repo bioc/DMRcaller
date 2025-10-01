@@ -27,16 +27,16 @@ plotLocalMethylationProfile(
 \item{methylationData2}{the methylation data in condition 2
 (see \code{\link{methylationDataList}}).}
 
-\item{region}{a \code{\link{GRanges}} object with the region where to plot
+\item{region}{a \code{\link[GenomicRanges]{GRanges}} object with the region where to plot
 the high resolution profile.}
 
-\item{DMRs}{a \code{\link{GRangesList}} object or a list with the list of
+\item{DMRs}{a \code{\link[GenomicRanges]{GRangesList}} object or a list with the list of
 DMRs (see \code{\link{computeDMRs}} or \code{\link{filterDMRs}}.}
 
 \item{conditionsNames}{the names of the two conditions. This will be used to
 plot the legend.}
 
-\item{gff}{a \code{\link{GRanges}} object with all elements usually imported
+\item{gff}{a \code{\link[GenomicRanges]{GRanges}} object with all elements usually imported
 from a GFF3 file. The gff file needs to have an metafield \code{"type"}. Only
 the elements of type  \code{"gene"}, \code{"exon"} and
 \code{"transposable_element"} are plotted. Genes are represented as

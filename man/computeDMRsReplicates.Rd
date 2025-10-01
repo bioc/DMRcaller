@@ -33,7 +33,7 @@ for all the replicates.}
 sample in \code{methylationData}. Two different values are allowed
 (for the two conditions).}
 
-\item{regions}{a \code{\link{GRanges}} object with the regions where to
+\item{regions}{a \code{\link[GenomicRanges]{GRanges}} object with the regions where to
 compute the DMRs. If \code{NULL}, the DMRs are computed genome-wide.}
 
 \item{context}{the context in which the DMRs are computed (\code{"CG"},
@@ -92,7 +92,7 @@ This value will automatically set as the maximum number of system workers,
 also able to set as manually.}
 }
 \value{
-the DMRs stored as a \code{\link{GRanges}} object with the following
+the DMRs stored as a \code{\link[GenomicRanges]{GRanges}} object with the following
 metadata columns:
 \describe{
  \item{direction}{a number indicating whether the region lost (-1)  or gain
@@ -125,10 +125,10 @@ data("syntheticDataReplicates")
 
 # compute the DMRs in CG context with neighbourhood method
 
-creating condition vector
+# creating condition vector
 condition <- c("a", "a", "b", "b")
 
-computing DMRs using the neighbourhood method
+# computing DMRs using the neighbourhood method
 DMRsReplicatesNeighbourhood <- computeDMRsReplicates(methylationData = syntheticDataReplicates,
                                                      condition = condition,
                                                      regions = NULL,

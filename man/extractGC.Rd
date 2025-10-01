@@ -7,7 +7,7 @@
 extractGC(methylationData, genome, contexts = c("ALL", "CG", "CHG", "CHH"))
 }
 \arguments{
-\item{methylationData}{the methylation data stored as a \code{\link{GRanges}}
+\item{methylationData}{the methylation data stored as a \code{\link[GenomicRanges]{GRanges}}
 object with four metadata columns (see \code{\link{methylationDataList}}).}
 
 \item{genome}{a BSgenome with the DNA sequence of the organism}

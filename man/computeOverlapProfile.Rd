@@ -13,10 +13,10 @@ computeOverlapProfile(
 )
 }
 \arguments{
-\item{subRegions}{a \code{\link{GRanges}} object with the sub regions; e.g.
+\item{subRegions}{a \code{\link[GenomicRanges]{GRanges}} object with the sub regions; e.g.
 can be the DMRs.}
 
-\item{largeRegion}{a \code{\link{GRanges}} object with the region where to
+\item{largeRegion}{a \code{\link[GenomicRanges]{GRanges}} object with the region where to
 compute the overlaps; e.g. a chromosome}
 
 \item{windowSize}{The \code{largeRegion} is partitioned into equal sized
@@ -28,7 +28,7 @@ compute the width of the overlap}
 \item{cores}{the number of cores used to compute the DMRs.}
 }
 \value{
-a \code{\link{GRanges}} object with equal sized tiles of the regions.
+a \code{\link[GenomicRanges]{GRanges}} object with equal sized tiles of the regions.
 The object has one metadata file \code{score} which represents: the number of
 subRegions overlapping with the tile, in the case of \code{binary = TRUE},
 and the width of the subRegions overlapping with the tile , in the case of
@@ -36,7 +36,7 @@ and the width of the subRegions overlapping with the tile , in the case of
 }
 \description{
 This function computes the distribution of a subset of regions
-(\code{\link{GRanges}} object)  over a large region (\code{\link{GRanges}}
+(\code{\link[GenomicRanges]{GRanges}} object)  over a large region (\code{\link[GenomicRanges]{GRanges}}
 object)
 }
 \examples{

@@ -29,7 +29,7 @@ plotMethylationDataSpatialCorrelation(
 \item{distances}{a \code{numeric} vector specifing the different values for
 the distances when computing the correlation.}
 
-\item{regions}{a \code{\link{GRanges}} object with the regions where to
+\item{regions}{a \code{\link[GenomicRanges]{GRanges}} object with the regions where to
 compute the correlation. If \code{NULL}, the coverage is computed genome-wide.}
 
 \item{conditionsNames}{a vector of character with the names of the conditions
@@ -73,20 +73,21 @@ context that have at least a certain number of reads (x-axis)
 }
 \examples{
 
-\dontrun{
+
 # load the methylation data
 data(methylationDataList)
 
 # plot the spatial correlation in CG context
 par(mar=c(4, 4, 3, 1)+0.1)
 plotMethylationDataSpatialCorrelation(methylationDataList[["WT"]],
+                           methylationDataList[["met1-3"]],
                            distances = c(1,5,10,15), regions = NULL,
                            conditionsNames = c("WT","met1-3"),
                            context = c("CG"),
                            labels = LETTERS, col = NULL,
                            pch = c(1,0,16,2,15,17), lty = c(4,1,3,2,6,5),
                            contextPerRow = FALSE)
-
+\dontrun{
 # plot the spatial correlation in all three contexts
 plotMethylationDataSpatialCorrelation(methylationDataList[["WT"]],
                            methylationDataList[["met1-3"]],

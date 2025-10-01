@@ -8,10 +8,10 @@ replicates}
 joinReplicates(methylationData1, methylationData2, usecomplete = FALSE)
 }
 \arguments{
-\item{methylationData1}{the methylation data stored as a \code{\link{GRanges}}
+\item{methylationData1}{the methylation data stored as a \code{\link[GenomicRanges]{GRanges}}
 object with four metadata columns (see \code{\link{methylationDataList}}).}
 
-\item{methylationData2}{the methylation data stored as a \code{\link{GRanges}}
+\item{methylationData2}{the methylation data stored as a \code{\link[GenomicRanges]{GRanges}}
 object with four metadata columns (see \code{\link{methylationDataList}}).}
 
 \item{usecomplete}{Boolean, determine wheter, when the two dataset differ for
@@ -19,7 +19,7 @@ number of cytosines, if the smaller dataset should be added with zero reads
 to match the bigger dataset.}
 }
 \value{
-returns a \code{\link{GRanges}} object containing multiple metadata
+returns a \code{\link[GenomicRanges]{GRanges}} object containing multiple metadata
 columns with the reads from each object passed as parameter
 }
 \description{
@@ -28,14 +28,14 @@ perform analysis
 }
 \examples{
 
-\dontrun{
+
 # load the methylation data
 data(methylationDataList)
 
 # Joins the wildtype and the mutant in a single object
 joined_data <- joinReplicates(methylationDataList[["WT"]],
                               methylationDataList[["met1-3"]], FALSE)
-}
+
 
 }
 \author{
