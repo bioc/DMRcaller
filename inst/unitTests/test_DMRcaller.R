@@ -1,6 +1,6 @@
 library(DMRcaller)
 library(RUnit)
-library(BSgenome.Hsapiens.UCSC.hg38)
+
 
 
 # create synthetic data
@@ -236,6 +236,15 @@ test_computeDMRsReplicates <- function(){
 data(ontSampleGRangesList)
 
 test_readONTbam_chr1_sample <- function() {
+  if (!requireNamespace("BSgenome.Hsapiens.UCSC.hg38", quietly = TRUE)) {
+    message("BSgenome.Hsapiens.UCSC.hg38 not installed; skipping test")
+    return(TRUE)
+  }
+  if (!requireNamespace("GenomeInfoDb", quietly = TRUE)) {
+    message("GenomeInfoDb not installed; skipping test")
+    return(TRUE)
+  }
+  library(BSgenome.Hsapiens.UCSC.hg38)
   ## 1) Locate the example BAM and its index in extdata/
   bamfile <- system.file("extdata", "scanBamChr1Random5.bam",
                          package = "DMRcaller")
@@ -262,4 +271,3 @@ test_readONTbam_chr1_sample <- function() {
   checkTrue(unique(seqnames(gr))=="chr1")
   checkTrue(unique(gr$context)=="CG")
 }
-

@@ -25,9 +25,9 @@ License: GPL-3
 LazyLoad: yes
 Imports: parallel, Rcpp, RcppRoll, betareg, grDevices, graphics, methods, stats,
         utils, Rsamtools, GenomicRanges, GenomicAlignments, Biostrings, BSgenome, BiocManager,
-        S4Vectors, IRanges,  InteractionSet, stringr, inflection, BiocParallel, Seqinfo
+        S4Vectors, IRanges,  InteractionSet, stringr, inflection, BiocParallel, Seqinfo, GenomeInfoDb
 Depends: R (>= 3.5), GenomicRanges, IRanges, S4Vectors 
-Suggests: knitr, RUnit, BiocGenerics, rmarkdown, bookdown, BiocStyle, betareg, rtracklayer
+Suggests: knitr, RUnit, BiocGenerics, rmarkdown, bookdown, BiocStyle, betareg, rtracklayer, BSgenome.Hsapiens.UCSC.hg38
 biocViews: DifferentialMethylation, DNAMethylation, Software,
         Sequencing, Coverage
 VignetteBuilder: knitr

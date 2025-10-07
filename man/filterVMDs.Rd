@@ -21,7 +21,7 @@ filterVMDs(
 \item{methylationData}{the methylation data in condition
 (see \code{\link{ontSampleGRangesList}}).}
 
-\item{potentialVMDs}{a \code{\link[GenomicRanges]{GRanges}} object with potential VMDs 
+\item{potentialVMDs}{a \code{\link{GRanges}} object with potential VMDs 
 where to compute the VMDs. This can be a a list of gene and/or transposable 
 elements coordinates.}
 
@@ -60,7 +60,7 @@ This value will automatically set as the maximum number of system workers,
 also able to set as manually.}
 }
 \value{
-a \code{\link[GenomicRanges]{GRanges}} object with 9 metadata columns that contain 
+a \code{\link{GRanges}} object with 9 metadata columns that contain 
 the VMDs; see \code{\link{computeVMDs}}.
 }
 \description{

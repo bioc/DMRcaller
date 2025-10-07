@@ -11,12 +11,12 @@ readBismarkPool(files)
 (CX report generated with Bismark) to be read}
 }
 \value{
-the methylation data stored as a \code{\link[GenomicRanges]{GRanges}}
+the methylation data stored as a \code{\link{GRanges}}
 object with four metadata columns (see \code{\link{methylationDataList}}).
 }
 \description{
 This function takes as input a vector of CX report file produced by Bismark
-and returns a \code{\link[GenomicRanges]{GRanges}} object with four metadata columns
+and returns a \code{\link{GRanges}} object with four metadata columns
 (see \code{\link{methylationDataList}}). The file represents the pooled
 bisulfite sequencing data.
 }

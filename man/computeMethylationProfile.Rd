@@ -12,10 +12,10 @@ computeMethylationProfile(
 )
 }
 \arguments{
-\item{methylationData}{the methylation data stored as a \code{\link[GenomicRanges]{GRanges}}
+\item{methylationData}{the methylation data stored as a \code{\link{GRanges}}
 object with four metadata columns (see \code{\link{methylationDataList}}).}
 
-\item{region}{a \code{\link[GenomicRanges]{GRanges}} object with the regions where to
+\item{region}{a \code{\link{GRanges}} object with the regions where to
 compute the DMRs.}
 
 \item{windowSize}{a \code{numeric} value indicating the size of the window in
@@ -25,7 +25,7 @@ which methylation is averaged.}
 \code{"CHG"} or \code{"CHH"}).}
 }
 \value{
-a \code{\link[GenomicRanges]{GRanges}} object with equal sized tiles of the
+a \code{\link{GRanges}} object with equal sized tiles of the
 \code{region}. The object consists of the following metadata
 \describe{
  \item{sumReadsM}{the number of methylated reads.}

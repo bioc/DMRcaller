@@ -26,7 +26,7 @@ filterDMRs(
 \item{methylationData2}{the methylation data in condition 2
 (see \code{\link{methylationDataList}}).}
 
-\item{potentialDMRs}{a \code{\link[GenomicRanges]{GRanges}} object with potential DMRs 
+\item{potentialDMRs}{a \code{\link{GRanges}} object with potential DMRs 
 where to compute the DMRs. This can be a a list of gene and/or transposable 
 elements coordinates.}
 
@@ -61,7 +61,7 @@ This value will automatically set as the maximum number of system workers,
 also able to set as manually.}
 }
 \value{
-a \code{\link[GenomicRanges]{GRanges}} object with 11 metadata columns that contain 
+a \code{\link{GRanges}} object with 11 metadata columns that contain 
 the DMRs; see \code{\link{computeDMRs}}.
 }
 \description{

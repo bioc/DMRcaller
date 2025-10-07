@@ -29,7 +29,7 @@ plotMethylationDataCoverage(
 \item{breaks}{a \code{numeric} vector specifing the different values for the
 thresholds when computing the coverage.}
 
-\item{regions}{a \code{\link[GenomicRanges]{GRanges}} object with the regions where to
+\item{regions}{a \code{\link{GRanges}} object with the regions where to
 compute the coverage. If \code{NULL}, the coverage is computed genome-wide.}
 
 \item{conditionsNames}{a vector of character with the names of the conditions

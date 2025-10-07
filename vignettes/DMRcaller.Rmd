@@ -551,6 +551,7 @@ legend(x = "topleft", legend=c("Treatment 1", "Treatment 2", "Control 1",
 The DMRs are computed using the function `computeDMRsReplicates`, which uses beta regression [@ferrari_2004] to detect differential methylation.
 
 ```{r computingBiologicalReplicates, message=FALSE,cache=FALSE, eval=TRUE}
+if (requireNamespace("GenomeInfoDb", quietly = TRUE)) {
 # starting with data joined using joinReplicates
 
 # creating condition vector
@@ -575,6 +576,7 @@ DMRsReplicatesBins <- computeDMRsReplicates(methylationData = syntheticDataRepli
                                             cores = 1)
 
 print(DMRsReplicatesBins)
+}
 ```
 
 ## Extract methylation data in regions
