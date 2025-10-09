@@ -1,8 +1,8 @@
-#' Compute Co-Methylation Between CpG Sites Within regions
+#' Compute Co-Methylation Positions within Regions (CMPs)
 #'
 #' @title Compute pairwise co-methylation statistics for cytosine sites within regions
 #' @description
-#' \code{computeCoMethylation()} calculates pairwise co-methylation between all cytosine sites
+#' \code{computeCoMethylatedPositions()} calculates pairwise co-methylation between all cytosine sites
 #' within each given region, using ONT methylation calls annotated to each site.
 #' For each pair of cytosines within the same strand and PMD, it builds a 2x2 contingency table
 #' reflecting the overlap state of reads (both methylated, only one methylated, or neither),
@@ -53,7 +53,7 @@
 #' data(ont_gr_GM18870_chr1_sorted_bins_1k)
 #'
 #' # compute the co-methylations with Fisher's exact test
-#' coMetylationFisher <- computeCoMethylation(
+#' coMetylationFisher <- computeCoMethylatedPositions(
 #'   ont_gr_GM18870_chr1_sorted_bins_1k,
 #'   regions = ont_gr_GM18870_chr1_PMD_bins_1k[1:4],
 #'   minDistance = 150,
@@ -64,7 +64,7 @@
 #'   parallel = FALSE)
 #'
 #' # compute the co-methylations with Permuation test
-#' coMetylationPermutation <- computeCoMethylation(
+#' coMetylationPermutation <- computeCoMethylatedPositions(
 #'   ont_gr_GM18870_chr1_sorted_bins_1k,
 #'   regions = ont_gr_GM18870_chr1_PMD_bins_1k[1:4],
 #'   minDistance = 150,
@@ -81,7 +81,7 @@
 #' @import InteractionSet
 #' @import BiocParallel
 #' @export
-computeCoMethylation <- function(methylationData,
+computeCoMethylatedPositions <- function(methylationData,
                                           regions,
                                           minDistance = 150,
                                           maxDistance = 1000,
@@ -137,7 +137,7 @@ computeCoMethylation <- function(methylationData,
   n_total <- length(regions)
   for (i in seq_along(regions)) {
     elapsed <- difftime(Sys.time(), t_start, units = "secs")
-    cat(sprintf("[computeCoMethylation] PMD %d/%d (%.1f%%) at %s | Elapsed: %.1f sec\n",
+    cat(sprintf("[computeCoMethylatedPositions] PMD %d/%d (%.1f%%) at %s | Elapsed: %.1f sec\n",
                 i, n_total, 100*i/n_total, format(Sys.time(), "%H:%M:%S"), as.numeric(elapsed)))
     bin <- regions[i]
     in_bin <- methylationData[queryHits(findOverlaps(methylationData, bin))]
@@ -194,7 +194,7 @@ computeCoMethylation <- function(methylationData,
 
 
   total_elapsed <- difftime(Sys.time(), t_start, units = "secs")
-  cat(sprintf("[computeCoMethylation] Done! Total elapsed time: %.1f sec\n", as.numeric(total_elapsed)))
+  cat(sprintf("[computeCoMethylatedPositions] Done! Total elapsed time: %.1f sec\n", as.numeric(total_elapsed)))
   return(result)
 }
 

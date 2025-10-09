@@ -773,9 +773,9 @@ The function returns a `GRanges` object containing the same genomic intervals as
 
 Only regions satisfying all filtering criteria (e.g., coverage, cytosine count, variance CI exclusion, proportion difference) are retained in the output. For strict variance detection, set `ciExcludesOne = TRUE` and optionally apply `varRatioFc = 2` for 2-fold variance filtering.
 
-## Calling Co-Methylation using ONT data
+## Calling Co-Methylated Positions (CMPs) using ONT data 
 
-The *DMRcaller* package provides the `computeCoMethylation` function to detect **pairwise co-methylation** patterns between CpG, CpHpG or CpHpH sites within user-defined genomic regions, such as **PMDs**, **genes**, or **repeat elements**. This is especially useful when exploring coordinated methylation regulation or identifying methylation-linked chromatin interactions using *long-read Nanopore sequencing data*.
+The *DMRcaller* package provides the `computeCoMethylatedPositions` function to detect **pairwise co-methylation** patterns between CpG, CpHpG or CpHpH sites within user-defined genomic regions, such as **PMDs**, **genes**, or **repeat elements**. This is especially useful when exploring coordinated methylation regulation or identifying methylation-linked chromatin interactions using *long-read Nanopore sequencing data*.
 
 For each region, the function computes **strand-specific pairwise associations** between methylation positions that fall within a specified genomic distance range. It constructs a 2×2 contingency table summarising methylation co-occurrence across reads and performs a statistical test to evaluate co-dependency.
 
@@ -791,13 +791,13 @@ Each significant interaction includes:
 -   **genomic_position** – region ID in UCSC/IGV format (e.g. "`chr1:1522971-1523970`")
 -   **p.value** – FDR-adjusted p-value from Fisher’s exact or permutation test
 
-```{r compute_comethylation_fisher, message=FALSE, cache=FALSE, eval=FALSE}
+```{r compute_comethylation_fisher, message=FALSE, cache=FALSE, eval=TRUE}
 # load ONT methylation and PMD data
 data("ont_gr_GM18870_chr1_PMD_bins_1k")
 data("ont_gr_GM18870_chr1_sorted_bins_1k")
 
 # compute co-methylation using Fisher's exact test
-coMethylationFisher <- computeCoMethylation(
+coMethylationFisher <- computeCoMethylatedPositions(
   ont_gr_GM18870_chr1_sorted_bins_1k,
   regions = ont_gr_GM18870_chr1_PMD_bins_1k[1:4],
   minDistance = 150,
@@ -812,9 +812,51 @@ coMethylationFisher
 
 **Note on region size and multiple testing correction**
 
-The `computeCoMethylation` function applies `FDR` correction globally across **all cytosine pairs** tested within the input regions. As such, the number and range of regions provided can influence the adjusted p-values. For example, providing smaller or fewer regions results in fewer total comparisons, which can lead to more conservative (higher) adjusted p-values for the same cytosine pairs.
+The `computeCoMethylatedPositions` function applies `FDR` correction globally across **all cytosine pairs** tested within the input regions. As such, the number and range of regions provided can influence the adjusted p-values. For example, providing smaller or fewer regions results in fewer total comparisons, which can lead to more conservative (higher) adjusted p-values for the same cytosine pairs.
 
 Therefore, when designing region inputs for co-methylation analysis, it’s important to note that adjusted significance depends not only on the pairwise test but also on the size and number of regions analysed.
+
+## Calling Co-Methylated Regions (CMRs) using ONT Data
+
+The *DMRcaller* package also provides the `computeCoMethylatedRegions` function to detect **correlation between methylation levels** of different genomic regions, such as **PMDs**, **genes**, or **regulatory domains**, using *long-read Nanopore methylation data*. This approach identifies region pairs that are **coordinated in their methylation profiles across single reads**. For example, two PMDs showing a high positive correlation may reflect **shared regulatory influence**, spatial proximity, or joint epigenetic repression.
+
+For each candidate region pair within the user-defined **distance range** (e.g. 500–50,000.bp), the function computes:
+
+-   Per-read methylation **proportions** across each region
+-   **Correlation coefficients** (Pearson, Spearman, or Kendall) between these proportions
+-   FDR-adjusted **p-values** to identify significantly co-methylated region pairs
+
+The function returns a `GInteractions` object, where:
+
+-   Each row represents a **significantly correlated region pair**
+-   Anchors (`anchor1` and `anchor2`) correspond to the original input `regions`
+-   Metadata columns include:
+    -   `correlation` – correlation coefficient (e.g. Pearson's r)
+    -   `coverage` – number of shared reads used for correlation
+    -   `p.value` – FDR-adjusted p-value
+    -   `genomic_position` – string representation of both region coordinates
+
+```{r compute_cmrs_pearson, message=FALSE, cache=FALSE, eval=TRUE}
+# load ONT methylation and PMD data
+data("ont_gr_GM18870_chr1_sorted_bins_1k")
+data("ont_gr_GM18870_chr1_PMD_bins_1k")
+
+# compute highly correlated PMD region pairs using Pearson method
+coMethRegions <- computeCoMethylatedRegions(
+  methylationData = ont_gr_GM18870_chr1_sorted_bins_1k,
+  regions = ont_gr_GM18870_chr1_PMD_bins_1k[1:5],
+  minDistance = 500,
+  maxDistance = 50000,
+  minCoverage = 4,
+  pValueThreshold = 0.05,
+  correlation_test = "pearson",
+  minCorrelation = -0.5,
+  maxCorrelation = 0.5,
+  parallel = FALSE
+)
+
+coMethRegions
+```
 
 ## Plotting the distribution of DMRs, PMDs, VMDs or VMRs
 
@@ -890,7 +932,7 @@ The five functions used for computing and filtering the DMRs, PMDs and VMRs (`co
 
 -   `cores` - which specifies the number of cores that can be used when performing the corresponding computations (must not exceed `BPPARAM$workers`). This value will automatically set as the maximum number of system workers, also able to set as manually.; *default setting*: `1`
 
-These two function used for reading ONT bam file and computing co-methylation (`readONTbam`,`computeCoMethylation`) accept `parallel` and `BPPARAM` only.
+These two function used for reading ONT bam file and computing co-methylation (`readONTbam`,`computeCoMethylatedPositions`, `computeCoMethylatedRegions`) accept `parallel` and `BPPARAM` only.
 
 When using 10 cores, it can take between 10 and 30 minutes to compute the DMRs in *A. thaliana* depending on the selected parameters.
 

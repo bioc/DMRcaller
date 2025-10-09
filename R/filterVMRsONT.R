@@ -64,7 +64,7 @@
 #' apply a fold-change cutoff on the variance ratio (\code{varRatioFc}).
 #'
 #' @seealso \code{\link{readONTbam}},
-#' \code{\link{computePMDs}}, \code{\link{computeCoMethylation}},
+#' \code{\link{computePMDs}}, \code{\link{computeCoMethylatedPositions}},
 #' \code{\link{ontSampleGRangesList}}, \code{\link{GEs_hg38}}
 #'
 #' @examples 

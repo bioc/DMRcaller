@@ -103,9 +103,9 @@ ONTSampleGRanges <- readONTbam(bamfile = bam_path, ref_gr = NULL, modif = "C+m?"
 }
 \seealso{
 \code{\link{selectCytosine}}, \code{\link{computeDMRs}},
-\code{\link{computePMDs}}, \code{\link{computeCoMethylation}},
-\code{\link{filterVMRsONT}}, \code{\link{ontSampleGRangesList}},
-\code{\link{scanBamChr1Random5}}
+\code{\link{computePMDs}}, \code{\link{computeCoMethylatedPositions}},
+\code{\link{computeCoMethylatedRegions}}, \code{\link{filterVMRsONT}},
+\code{\link{ontSampleGRangesList}}, \code{\link{scanBamChr1Random5}}
 }
 \author{
 Nicolae Radu Zabet and Young Jun Kim

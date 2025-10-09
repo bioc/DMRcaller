@@ -97,8 +97,14 @@ The most important functions in the \pkg{DMRcaller} are:
        statistical significance.}
  \item{\code{\link{analyseReadsInsideRegionsForConditionPMD}}}{Counts reads
        in each PMD for one condition.}
- \item{\code{\link{computeCoMethylation}}}{Computes pairwise co‐methylation
-       between CpGs within regions.}
+ \item{\code{\link{computeVMDs}}}{Computes the variance methylated domains 
+       between pre-set min and max proportion values}
+ \item{\code{\link{filterVMRsONT}}}{Filters VMRs with ONT-specific variance 
+       tests and CI filters}
+ \item{\code{\link{computeCoMethylatedPositions}}}{Computes pairwise 
+       co‐methylation between Cytosine sites within regions.}
+ \item{\code{\link{computeCoMethylatedRegions}}}{Computes pairwise 
+       co-methylation statistics between regions.}
 }
 }
 \examples{
@@ -416,7 +422,7 @@ PMDsNoiseFilterCGreadsCG <- analyseReadsInsideRegionsForConditionPMD(
 data(PMDsBinsCG)
 
 # compute the co-methylations with Fisher's exact test
-coMetylationFisher <- computeCoMethylation(
+coMetylationFisher <- computeCoMethylatedPositions(
   ontSampleGRangesList[[1]],
   regions = PMDsBinsCG,
   minDistance = 150,
@@ -427,7 +433,7 @@ coMetylationFisher <- computeCoMethylation(
   parallel = FALSE)
 
 # compute the co-methylations with Permuation test
-coMetylationPermutation <- computeCoMethylation(
+coMetylationPermutation <- computeCoMethylatedPositions(
   ontSampleGRangesList[[1]],
   regions = PMDsBinsCG,
   minDistance = 150,
