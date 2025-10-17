@@ -200,7 +200,9 @@ selectCytosine <- function(genome   = BSgenome.Hsapiens.UCSC.hg38,
 #'                     If FALSE (default), decoding is done serially.
 #' @param BPPARAM      A \code{BiocParallelParam} object controlling parallel execution.
 #'                     This value will automatically set when parallel is \code{TRUE}, also able to set as manually.
-#'
+#' @param cores Integer number of workers (must not exceed BPPARAM$workers).
+#'    This value will automatically set as the maximum number of system workers,
+#'    also able to set as manually.
 #'
 #' @return A \code{GRanges} of the same length as \code{ref_gr}, with four
 #'   additional metadata columns:
@@ -211,9 +213,9 @@ selectCytosine <- function(genome   = BSgenome.Hsapiens.UCSC.hg38,
 #'     \item{readsN}{integer count of same‐strand reads covering each site}
 #'   }
 #' @seealso \code{\link{selectCytosine}}, \code{\link{computeDMRs}},
-#' \code{\link{computePMDs}}, \code{\link{computeCoMethylation}},
-#' \code{\link{filterVMRsONT}}, \code{\link{ontSampleGRangesList}},
-#' \code{\link{scanBamChr1Random5}}
+#' \code{\link{computePMDs}}, \code{\link{computeCoMethylatedPositions}},
+#' \code{\link{computeCoMethylatedRegions}}, \code{\link{filterVMRsONT}},
+#' \code{\link{ontSampleGRangesList}}, \code{\link{scanBamChr1Random5}}
 #' @examples
 #' \dontrun{
 #' library(DMRcaller)
@@ -247,7 +249,8 @@ readONTbam <- function(bamfile,
                        region      = NULL,
                        synonymous  = FALSE,
                        parallel    = FALSE,
-                       BPPARAM     = NULL) {
+                       BPPARAM     = NULL,
+                       cores       = NULL) {
   ### PUT THE include_diff = FALSE, include_nocall = FALSE) after including parameter
 
   ##Parameters checking
@@ -268,17 +271,35 @@ readONTbam <- function(bamfile,
   }
   region <- .validateGRanges(region, ref_gr)
 
-  # generate the BPPARAM value if set as parallel
+  # generate the BPPARAM value if set as parallel 
   if (parallel == TRUE){
-    BPPARAM <- suppressWarnings(.validateBPPARAM(BPPARAM, progressbar = TRUE))
-    cat("Current parallel setting, BPPARAM: ",
-        capture.output(BPPARAM),sep = "\n")
+    BPPARAM <- suppressWarnings(.validateBPPARAM(BPPARAM, progressbar = TRUE)) 
   }else{
     # Force serial execution
     BPPARAM <- BiocParallel::SerialParam(progressbar = TRUE)
-    cat("Current parallel setting, BPPARAM: ",
-        capture.output(BPPARAM),sep = "\n")
   }
+  # If cores argument is specified
+  if (!is.null(cores)) {
+    .stopIfNotAll(.isInteger(cores, positive = TRUE), 
+                  "the number of cores used when computing the DMRs needs to be an integer higher or equal to 1.")
+    
+    # Check if user requested more cores than available
+    if (cores > BPPARAM$workers) {
+      warning(paste0("The number of requested cores (", cores, 
+                     ") exceeds the available system cores (", BPPARAM$workers, 
+                     "). Automatically setting cores to the maximum available (", 
+                     BPPARAM$workers, ")."))
+      cores <- BPPARAM$workers
+    } else {
+      message(paste0("Using user-specified core count: ", cores))
+    }
+    
+    # Apply the final core number
+    BPPARAM$workers <- cores
+  } else {
+    cores <- BPPARAM$workers
+  }
+  cat("Current parallel setting, BPPARAM: ", capture.output(BPPARAM),sep = "\n")
 
   .stopIfNotAll(c(!is.null(prob_thresh),
                   is.numeric(prob_thresh),

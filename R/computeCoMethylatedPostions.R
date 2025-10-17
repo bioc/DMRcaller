@@ -26,6 +26,9 @@
 #' @param parallel Logical; run in parallel if \code{TRUE}.
 #' @param BPPARAM A \code{BiocParallelParam} object controlling parallel execution.
 #' This value will automatically set when parallel is \code{TRUE}, also able to set as manually.
+#' @param cores Integer number of workers (must not exceed BPPARAM$workers).
+#'    This value will automatically set as the maximum number of system workers,
+#'    also able to set as manually.
 #' @return A list of length equal to \code{regions}, where each entry is a \code{GInteractions} object
 #'   of significant cytosine pairs (by strand), annotated with:
 #'   \describe{
@@ -90,21 +93,40 @@ computeCoMethylatedPositions <- function(methylationData,
                                           alternative = "two.sided",
                                           test = "fisher",
                                           parallel = FALSE,
-                                          BPPARAM  = NULL){
+                                          BPPARAM  = NULL,
+                                          cores = NULL){
   ##Parameters checking
   cat("Parameters checking ...\n")
 
-  # generate the BPPARAM value if set as parallel
+  # generate the BPPARAM value if set as parallel 
   if (parallel == TRUE){
-    BPPARAM <- suppressWarnings(.validateBPPARAM(BPPARAM, progressbar = TRUE))
-    cat("Current parallel setting, BPPARAM: ",
-        capture.output(BPPARAM),sep = "\n")
+    BPPARAM <- suppressWarnings(.validateBPPARAM(BPPARAM, progressbar = TRUE)) 
   }else{
     # Force serial execution
     BPPARAM <- BiocParallel::SerialParam(progressbar = TRUE)
-    cat("Current parallel setting, BPPARAM: ",
-        capture.output(BPPARAM),sep = "\n")
   }
+  # If cores argument is specified
+  if (!is.null(cores)) {
+    .stopIfNotAll(.isInteger(cores, positive = TRUE), 
+                  "the number of cores used when computing the DMRs needs to be an integer higher or equal to 1.")
+    
+    # Check if user requested more cores than available
+    if (cores > BPPARAM$workers) {
+      warning(paste0("The number of requested cores (", cores, 
+                     ") exceeds the available system cores (", BPPARAM$workers, 
+                     "). Automatically setting cores to the maximum available (", 
+                     BPPARAM$workers, ")."))
+      cores <- BPPARAM$workers
+    } else {
+      message(paste0("Using user-specified core count: ", cores))
+    }
+    
+    # Apply the final core number
+    BPPARAM$workers <- cores
+  } else {
+    cores <- BPPARAM$workers
+  }
+  cat("Current parallel setting, BPPARAM: ", capture.output(BPPARAM),sep = "\n")
 
   .validateMethylationData(methylationData, variableName="methylationData")
   regions <- .validateGRanges(regions, methylationData)

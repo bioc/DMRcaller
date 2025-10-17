@@ -14,7 +14,8 @@ computeCoMethylatedPositions(
   alternative = "two.sided",
   test = "fisher",
   parallel = FALSE,
-  BPPARAM = NULL
+  BPPARAM = NULL,
+  cores = NULL
 )
 }
 \arguments{
@@ -45,6 +46,10 @@ NOTE: highly recommended to do parallel when use permutation test.}
 
 \item{BPPARAM}{A \code{BiocParallelParam} object controlling parallel execution.
 This value will automatically set when parallel is \code{TRUE}, also able to set as manually.}
+
+\item{cores}{Integer number of workers (must not exceed BPPARAM$workers).
+This value will automatically set as the maximum number of system workers,
+also able to set as manually.}
 }
 \value{
 A list of length equal to \code{regions}, where each entry is a \code{GInteractions} object

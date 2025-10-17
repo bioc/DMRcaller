@@ -924,15 +924,13 @@ DMRsNoiseFilterCG_3cores <- computeDMRs(methylationDataList[["WT"]],
 print(DMRsNoiseFilterCG_3cores)
 ```
 
-The five functions used for computing and filtering the DMRs, PMDs and VMRs (`computeDMRs`, `filterDMRs`, `mergeDMRsIteratively`, `analyseReadsInsideRegionsForCondition`, `computeDMRsReplicates`,`computePMDs`, `filterPMDs`, `mergePMDsIteratively`, `analyseReadsInsideRegionsForConditionPMD`, and `filterVMRsONT`) accept three parameters
+The five functions used for computing and filtering the DMRs, PMDs and VMRs (`readONTbam`,  `computeDMRs`, `filterDMRs`, `mergeDMRsIteratively`, `analyseReadsInsideRegionsForCondition`, `computeDMRsReplicates`,`computePMDs`, `filterPMDs`, `mergePMDsIteratively`, `analyseReadsInsideRegionsForConditionPMD`, `filterVMRsONT`, `computeCoMethylatedPositions` and `computeCoMethylatedRegions`) accept three parameters
 
 -   `parallel` - run in parallel if `TRUE`.; *default setting*: `FALSE`
 
 -   `BPPARAM` - A `BiocParallelParam` object controlling parallel execution. This value will automatically set when parallel is `TRUE`, also able to set as manually.; *default setting*: `NULL`
 
 -   `cores` - which specifies the number of cores that can be used when performing the corresponding computations (must not exceed `BPPARAM$workers`). This value will automatically set as the maximum number of system workers, also able to set as manually.; *default setting*: `1`
-
-These two function used for reading ONT bam file and computing co-methylation (`readONTbam`,`computeCoMethylatedPositions`, `computeCoMethylatedRegions`) accept `parallel` and `BPPARAM` only.
 
 When using 10 cores, it can take between 10 and 30 minutes to compute the DMRs in *A. thaliana* depending on the selected parameters.
 

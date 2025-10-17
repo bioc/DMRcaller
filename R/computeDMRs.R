@@ -149,10 +149,23 @@ computeDMRs <- function(methylationData1,
     # Force serial execution
     BPPARAM <- BiocParallel::SerialParam(progressbar = TRUE)
   }
-  if (!is.null(cores)){
-    .stopIfNotAll(c(.isInteger(cores, positive=TRUE)), 
-                  " the number of cores to used when computing the DMRs needs to be an integer  hirger or equal to 1.")
-    .stopIfNotAll(BPPARAM$workers >= cores, paste0("the cores should be smaller than system's cores, current system cores: ",BPPARAM$workers))
+  # If cores argument is specified
+  if (!is.null(cores)) {
+    .stopIfNotAll(.isInteger(cores, positive = TRUE), 
+                  "the number of cores used when computing the DMRs needs to be an integer higher or equal to 1.")
+    
+    # Check if user requested more cores than available
+    if (cores > BPPARAM$workers) {
+      warning(paste0("The number of requested cores (", cores, 
+                     ") exceeds the available system cores (", BPPARAM$workers, 
+                     "). Automatically setting cores to the maximum available (", 
+                     BPPARAM$workers, ")."))
+      cores <- BPPARAM$workers
+    } else {
+      message(paste0("Using user-specified core count: ", cores))
+    }
+    
+    # Apply the final core number
     BPPARAM$workers <- cores
   } else {
     cores <- BPPARAM$workers
@@ -835,10 +848,23 @@ filterDMRs <- function(methylationData1,
     # Force serial execution
     BPPARAM <- BiocParallel::SerialParam(progressbar = TRUE)
   }
-  if (!is.null(cores)){
-    .stopIfNotAll(c(.isInteger(cores, positive=TRUE)), 
-                  " the number of cores to used when computing the DMRs needs to be an integer  hirger or equal to 1.")
-    .stopIfNotAll(BPPARAM$workers >= cores, paste0("the cores should be smaller than system's cores, current system cores: ",BPPARAM$workers))
+  # If cores argument is specified
+  if (!is.null(cores)) {
+    .stopIfNotAll(.isInteger(cores, positive = TRUE), 
+                  "the number of cores used when computing the DMRs needs to be an integer higher or equal to 1.")
+    
+    # Check if user requested more cores than available
+    if (cores > BPPARAM$workers) {
+      warning(paste0("The number of requested cores (", cores, 
+                     ") exceeds the available system cores (", BPPARAM$workers, 
+                     "). Automatically setting cores to the maximum available (", 
+                     BPPARAM$workers, ")."))
+      cores <- BPPARAM$workers
+    } else {
+      message(paste0("Using user-specified core count: ", cores))
+    }
+    
+    # Apply the final core number
     BPPARAM$workers <- cores
   } else {
     cores <- BPPARAM$workers
@@ -1091,10 +1117,23 @@ mergeDMRsIteratively <- function(DMRs,
     # Force serial execution
     BPPARAM <- BiocParallel::SerialParam(progressbar = TRUE)
   }
-  if (!is.null(cores)){
-    .stopIfNotAll(c(.isInteger(cores, positive=TRUE)), 
-                  " the number of cores to used when computing the DMRs needs to be an integer  hirger or equal to 1.")
-    .stopIfNotAll(BPPARAM$workers >= cores, paste0("the cores should be smaller than system's cores, current system cores: ",BPPARAM$workers))
+  # If cores argument is specified
+  if (!is.null(cores)) {
+    .stopIfNotAll(.isInteger(cores, positive = TRUE), 
+                  "the number of cores used when computing the DMRs needs to be an integer higher or equal to 1.")
+    
+    # Check if user requested more cores than available
+    if (cores > BPPARAM$workers) {
+      warning(paste0("The number of requested cores (", cores, 
+                     ") exceeds the available system cores (", BPPARAM$workers, 
+                     "). Automatically setting cores to the maximum available (", 
+                     BPPARAM$workers, ")."))
+      cores <- BPPARAM$workers
+    } else {
+      message(paste0("Using user-specified core count: ", cores))
+    }
+    
+    # Apply the final core number
     BPPARAM$workers <- cores
   } else {
     cores <- BPPARAM$workers
@@ -1218,10 +1257,23 @@ analyseReadsInsideRegionsForCondition <- function(regions,
     # Force serial execution
     BPPARAM <- BiocParallel::SerialParam(progressbar = TRUE)
   }
-  if (!is.null(cores)){
-    .stopIfNotAll(c(.isInteger(cores, positive=TRUE)), 
-                  " the number of cores to used when computing the DMRs needs to be an integer  hirger or equal to 1.")
-    .stopIfNotAll(BPPARAM$workers >= cores, paste0("the cores should be smaller than system's cores, current system cores: ",BPPARAM$workers))
+  # If cores argument is specified
+  if (!is.null(cores)) {
+    .stopIfNotAll(.isInteger(cores, positive = TRUE), 
+                  "the number of cores used when computing the DMRs needs to be an integer higher or equal to 1.")
+    
+    # Check if user requested more cores than available
+    if (cores > BPPARAM$workers) {
+      warning(paste0("The number of requested cores (", cores, 
+                     ") exceeds the available system cores (", BPPARAM$workers, 
+                     "). Automatically setting cores to the maximum available (", 
+                     BPPARAM$workers, ")."))
+      cores <- BPPARAM$workers
+    } else {
+      message(paste0("Using user-specified core count: ", cores))
+    }
+    
+    # Apply the final core number
     BPPARAM$workers <- cores
   } else {
     cores <- BPPARAM$workers

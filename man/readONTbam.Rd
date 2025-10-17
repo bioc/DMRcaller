@@ -15,7 +15,8 @@ readONTbam(
   region = NULL,
   synonymous = FALSE,
   parallel = FALSE,
-  BPPARAM = NULL
+  BPPARAM = NULL,
+  cores = NULL
 )
 }
 \arguments{
@@ -55,6 +56,10 @@ If FALSE (default), decoding is done serially.}
 
 \item{BPPARAM}{A \code{BiocParallelParam} object controlling parallel execution.
 This value will automatically set when parallel is \code{TRUE}, also able to set as manually.}
+
+\item{cores}{Integer number of workers (must not exceed BPPARAM$workers).
+This value will automatically set as the maximum number of system workers,
+also able to set as manually.}
 }
 \value{
 A \code{GRanges} of the same length as \code{ref_gr}, with four
