@@ -385,9 +385,73 @@ filterVMRsONT <- function(methylationData1,
 
 .wilcox_ftestPerRead <- function(methylationData1){
   results <- list()
+  # Check if ONT_Cm or ONT_C is empty or missing
+  if (length(methylationData1$ONT_Cm) == 0 || length(methylationData1$ONT_C) == 0) {
+    results$wilcoxTest <- structure(
+      list(
+        statistic   = setNames(NA_real_, "W"),
+        p.value     = NA_real_,
+        alternative = "true location shift is not equal to 0",
+        method      = "Wilcoxon rank sum test",
+        data.name   = "proportions_S1 and proportions_S2"
+      ),
+      class = "htest"
+    )
+    
+    results$fTest <- structure(
+      list(
+        statistic   = setNames(NA_real_, "F"),
+        parameter   = c(num.df = NA_real_, denom.df = NA_real_),
+        p.value     = NA_real_,
+        conf.int    = c(NA_real_, NA_real_),
+        estimate    = c("variance ratio" = NA_real_),
+        null.value  = c("variance ratio" = 1),
+        alternative = "two.sided",
+        method      = "F test to compare two variances",
+        data.name   = "proportions_S1 and proportions_S2"
+      ),
+      class = "htest"
+    )
+    
+    results$varience1 <- NA
+    results$varience2 <- NA
+    return(results)
+  }
   # collect the sequence index from GRanges (ONT_Cm, ONT_C)
   read_Cm_idx_list <- strsplit(unlist(methylationData1$ONT_Cm),c("_"))
   read_C_idx_list <- strsplit(unlist(methylationData1$ONT_C),c("_"))
+  # Early exit if no valid methylation data
+  if (length(read_Cm_idx_list) == 0 || length(read_C_idx_list) == 0) {
+    results$wilcoxTest <- structure(
+      list(
+        statistic   = setNames(NA_real_, "W"),
+        p.value     = NA_real_,
+        alternative = "true location shift is not equal to 0",
+        method      = "Wilcoxon rank sum test",
+        data.name   = "proportions_S1 and proportions_S2"
+      ),
+      class = "htest"
+    )
+    
+    results$fTest <- structure(
+      list(
+        statistic   = setNames(NA_real_, "F"),
+        parameter   = c(num.df = NA_real_, denom.df = NA_real_),
+        p.value     = NA_real_,
+        conf.int    = c(NA_real_, NA_real_),
+        estimate    = c("variance ratio" = NA_real_),
+        null.value  = c("variance ratio" = 1),
+        alternative = "two.sided",
+        method      = "F test to compare two variances",
+        data.name   = "proportions_S1 and proportions_S2"
+      ),
+      class = "htest"
+    )
+    
+    results$varience1 <- NA
+    results$varience2 <- NA
+    return(results)
+  }
 
   sample1_read_Cm_idx <- sapply(read_Cm_idx_list, function(x) x[1] == "Sample1")
   sample2_read_Cm_idx <- sapply(read_Cm_idx_list, function(x) x[1] == "Sample2")
