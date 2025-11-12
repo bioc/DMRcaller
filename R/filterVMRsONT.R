@@ -257,15 +257,47 @@ filterVMRsONT <- function(methylationData1,
         computedVMRs$sumReadsN2/computedVMRs$cytosinesCount >= minReadsPerCytosine &
         computedVMRs$cytosinesCount >= minCytosinesCount
       if (ciExcludesOne == TRUE){
-        bufferIndex <- bufferIndex & (sapply(computedVMRs$F_test_result, function(x) x$conf.int[1]) > 1 |
-                                        sapply(computedVMRs$F_test_result, function(x) x$conf.int[2]) < 1)
+        bufferIndex <- bufferIndex & (
+          sapply(computedVMRs$F_test_result, function(x) {
+            if (is.list(x) && !is.null(x$conf.int) && length(x$conf.int) >= 1 && !is.na(x$conf.int[1])) {
+              x$conf.int[1] > 1
+            } else {
+              FALSE
+            }
+          }) |
+            sapply(computedVMRs$F_test_result, function(x) {
+              if (is.list(x) && !is.null(x$conf.int) && length(x$conf.int) >= 2 && !is.na(x$conf.int[2])) {
+                x$conf.int[2] < 1
+              } else {
+                FALSE
+              }
+            })
+        )
       } else {
-        bufferIndex <- bufferIndex & !(sapply(computedVMRs$F_test_result, function(x) x$conf.int[1]) > 1 |
-                                         sapply(computedVMRs$F_test_result, function(x) x$conf.int[2]) < 1)
+        bufferIndex <- bufferIndex & !(
+          sapply(computedVMRs$F_test_result, function(x) {
+            if (is.list(x) && !is.null(x$conf.int) && length(x$conf.int) >= 1 && !is.na(x$conf.int[1])) {
+              x$conf.int[1] > 1
+            } else {
+              FALSE
+            }
+          }) |
+            sapply(computedVMRs$F_test_result, function(x) {
+              if (is.list(x) && !is.null(x$conf.int) && length(x$conf.int) >= 2 && !is.na(x$conf.int[2])) {
+                x$conf.int[2] < 1
+              } else {
+                FALSE
+              }
+            })
+        )
       }
-
-      if (!is.null(varRatioFc)){
-        bufferIndex <- bufferIndex & (computedVMRs$var_ratio >= varRatioFc | computedVMRs$var_ratio <= 1/varRatioFc)
+      
+      if (!is.null(varRatioFc)) {
+        bufferIndex <- bufferIndex & (
+          !is.na(computedVMRs$var_ratio) &
+            is.finite(computedVMRs$var_ratio) &
+            (computedVMRs$var_ratio >= varRatioFc | computedVMRs$var_ratio <= 1/varRatioFc)
+        )
       }
 
       computedVMRs <- computedVMRs[bufferIndex]
@@ -331,6 +363,9 @@ filterVMRsONT <- function(methylationData1,
   regions$cytosinesCount <- rep(0, times=length(regions))
   regions$wilcox_pvalue <- rep(0, times=length(regions))
   regions$f_pvalue <- rep(0, times=length(regions))
+  regions$var_ratio <- rep(0, times=length(regions))
+  regions$wilcox_result <- rep(0, times=length(regions))
+  regions$F_test_result <- rep(0, times=length(regions))
   ### run the wilcoxon test for comparing the proportion per reads between two dataset
   if (length(regionsIndexes) > 0){
     regions$sumReadsM1[regionsIndexes] <- sapply(methylationDataContextList,.sumReadsM1)
@@ -386,7 +421,7 @@ filterVMRsONT <- function(methylationData1,
 .wilcox_ftestPerRead <- function(methylationData1){
   results <- list()
   # Check if ONT_Cm or ONT_C is empty or missing
-  if (length(methylationData1$ONT_Cm) == 0 || length(methylationData1$ONT_C) == 0) {
+  if (all(elementNROWS(methylationData1$ONT_Cm) == 0) || all(elementNROWS(methylationData1$ONT_C) == 0)) {
     results$wilcoxTest <- structure(
       list(
         statistic   = setNames(NA_real_, "W"),
@@ -420,8 +455,13 @@ filterVMRsONT <- function(methylationData1,
   # collect the sequence index from GRanges (ONT_Cm, ONT_C)
   read_Cm_idx_list <- strsplit(unlist(methylationData1$ONT_Cm),c("_"))
   read_C_idx_list <- strsplit(unlist(methylationData1$ONT_C),c("_"))
+  # Flatten the nested list to extract all Sample identifiers (e.g., "Sample1", "Sample2")
+  flattened_read_Cm <- unlist(lapply(read_Cm_idx_list, function(x) x[1]))
+  flattened_read_C  <- unlist(lapply(read_C_idx_list,  function(x) x[1]))
+  
   # Early exit if no valid methylation data
-  if (length(read_Cm_idx_list) == 0 || length(read_C_idx_list) == 0) {
+  if ((!("Sample1" %in% flattened_read_Cm || "Sample1" %in% flattened_read_C)) ||
+      (!("Sample2" %in% flattened_read_Cm || "Sample2" %in% flattened_read_C))) {
     results$wilcoxTest <- structure(
       list(
         statistic   = setNames(NA_real_, "W"),
@@ -544,11 +584,23 @@ filterVMRsONT <- function(methylationData1,
   results$varience1 <- var(proportions_S1)
   results$varience2 <- var(proportions_S2)
 
-  if(length(proportions_S1)>=2 & length(proportions_S2)>=2 &
-     var(proportions_S1, na.rm=TRUE) > 0 & var(proportions_S2, na.rm=TRUE) > 0){
-    results$fTest <- var.test(proportions_S1,proportions_S2)
-  } else {
-    results$fTest <- NULL
+  results$fTest <- structure(
+    list(
+      statistic   = setNames(NA_real_, "F"),
+      parameter   = c(num.df = NA_real_, denom.df = NA_real_),
+      p.value     = NA_real_,
+      conf.int    = c(NA_real_, NA_real_),
+      estimate    = c("variance ratio" = NA_real_),
+      null.value  = c("variance ratio" = 1),
+      alternative = "two.sided",
+      method      = "F test to compare two variances",
+      data.name   = "proportions_S1 and proportions_S2"
+    ),
+    class = "htest"
+  )
+  if (length(proportions_S1)>=2 & length(proportions_S2)>=2 &
+      var(proportions_S1, na.rm=TRUE) > 0 & var(proportions_S2, na.rm=TRUE) > 0){
+    results$fTest <- var.test(proportions_S1, proportions_S2)
   }
  return(results)
 }
