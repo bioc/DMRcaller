@@ -405,7 +405,7 @@ readONTbam <- function(bamfile,
   # After sb is loaded and filtered
   aln <- GAlignments(seqnames=sb$rname, pos=sb$pos, cigar=sb$cigar, seq=sb$seq, strand = strands)
   ref_seq_list <- getSeq(genome, seqnames(aln), start(aln), end(aln))
-  aligned_seq_list <- sequenceLayer(sb$seq, cigar=sb$cigar, from="query", to="reference")
+  aligned_seq_list <- cigarillo::project_sequences(sb$seq, cigars=sb$cigar, from="query", to="reference")
 
   # build a lookup: read name -> its index ; easy to navigating less memory
   read_order <- seq_along(sb$qname)

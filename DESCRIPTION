@@ -1,7 +1,7 @@
 Package: DMRcaller
 Type: Package
 Title: Differentially Methylated Regions Caller
-Version: 1.43.1
+Version: 1.45.1
 Date: 2019-01-18
 Encoding: UTF-8
 Authors@R: c(person(given="Nicolae Radu", family="Zabet", role =
@@ -23,11 +23,14 @@ Description: Uses Bisulfite sequencing data in two conditions and
         stored as GRanges objects.
 License: GPL-3
 LazyLoad: yes
-Imports: parallel, Rcpp, RcppRoll, betareg, grDevices, graphics, methods, stats,
-        utils, Rsamtools, GenomicRanges, GenomicAlignments, Biostrings, BSgenome, BiocManager,
-        S4Vectors, IRanges,  InteractionSet, stringr, inflection, BiocParallel, Seqinfo, GenomeInfoDb
-Depends: R (>= 3.5), GenomicRanges, IRanges, S4Vectors 
-Suggests: knitr, RUnit, BiocGenerics, rmarkdown, bookdown, BiocStyle, betareg, rtracklayer, BSgenome.Hsapiens.UCSC.hg38
+Imports: parallel, Rcpp, RcppRoll, betareg, grDevices, graphics,
+        methods, stats, utils, Rsamtools, GenomicRanges,
+        GenomicAlignments, Biostrings, BSgenome, BiocManager,
+        S4Vectors, IRanges, InteractionSet, stringr, inflection,
+        BiocParallel, Seqinfo, GenomeInfoDb, cigarillo
+Depends: R (>= 3.5), GenomicRanges, IRanges, S4Vectors
+Suggests: knitr, RUnit, BiocGenerics, rmarkdown, bookdown, BiocStyle,
+        betareg, rtracklayer, BSgenome.Hsapiens.UCSC.hg38
 biocViews: DifferentialMethylation, DNAMethylation, Software,
         Sequencing, Coverage
 VignetteBuilder: knitr
