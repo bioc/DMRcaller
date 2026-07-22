@@ -385,7 +385,7 @@ readONTbam <- function(bamfile,
   # # reconstruct aligned blocks per read
   # cat("[readONTbam] Building coverage blocks per read ...\n")
   # cigar_str <- sb$cigar
-  # blocks_ir <- cigarRangesAlongReferenceSpace(
+  # blocks_ir <- cigars_as_ranges_along_ref(
   #   cigar_str,
   #   pos = sb$pos,
   #   ops = c("M", "=", "X")
@@ -436,13 +436,13 @@ readONTbam <- function(bamfile,
   # *2) Helper: parse insertions and deletions from a CIGAR string
   .getIndels <- function(cig) {
     # Insertions in read‐space
-    ins_ranges <- cigarRangesAlongQuerySpace(cig, ops="I")
+    ins_ranges <- cigars_as_ranges_along_query(cig, ops="I")
     ins_pos    <- unlist(start(ins_ranges))
     ins_len    <- unlist(width(ins_ranges))
 
     # Deletions: pos in read‐space, len in reference‐space
-    del_ranges_q <- cigarRangesAlongQuerySpace(cig, ops="D")
-    del_ranges_r <- cigarRangesAlongReferenceSpace(cig, ops="D")
+    del_ranges_q <- cigars_as_ranges_along_query(cig, ops="D")
+    del_ranges_r <- cigars_as_ranges_along_ref(cig, ops="D")
     del_pos      <- unlist(start(del_ranges_q))
     del_len      <- unlist(width(del_ranges_r))
 
@@ -464,8 +464,8 @@ readONTbam <- function(bamfile,
   # Find the reference aligned insertion position using the cigar string
   .getInsertionPos <- function(cigar){
     # Explode the CIGAR string into operations and lengths
-    ops  <- explodeCigarOps(cigar)[[1]]
-    lens <- explodeCigarOpLengths(cigar)[[1]]
+    ops  <- explode_cigar_ops(cigar)[[1]]
+    lens <- explode_cigar_oplens(cigar)[[1]]
 
     read_pos <- 1
     ref_pos  <- 1
@@ -511,8 +511,8 @@ readONTbam <- function(bamfile,
     ml_idx  <- 1L
 
     # 2) figure out read‐length and soft‐clipped bases
-    read_len   <- cigarWidthAlongQuerySpace(cigar)
-    read_ref_len <- cigarWidthAlongReferenceSpace(cigar)
+    read_len   <- cigar_extent_along_query(cigar)
+    read_ref_len <- cigar_extent_along_ref(cigar)
     sc         <- .getClipping(cigar)    # c(lead_clip, trail_clip)
     lead_clip  <- sc[1]
     trail_clip <- sc[2]
