@@ -1,7 +1,7 @@
 Package: DMRcaller
 Type: Package
 Title: Differentially Methylated Regions Caller
-Version: 1.45.2
+Version: 1.45.3
 Date: 2019-01-18
 Encoding: UTF-8
 Authors@R: c(person(given="Nicolae Radu", family="Zabet", role =
@@ -35,4 +35,4 @@ biocViews: DifferentialMethylation, DNAMethylation, Software,
         Sequencing, Coverage
 VignetteBuilder: knitr
 NeedsCompilation: no
-RoxygenNote: 7.3.3
+Config/roxygen2/version: 8.0.0

@@ -238,6 +238,13 @@ selectCytosine <- function(genome   = BSgenome.Hsapiens.UCSC.hg38,
 #' @importFrom IRanges IRanges IntegerList
 #' @importFrom Biostrings reverseComplement matchPattern getSeq
 #' @importFrom BiocParallel SerialParam bplapply
+#' @importFrom cigarillo project_sequences 
+#' @importFrom cigarillo cigars_as_ranges_along_query
+#' @importFrom cigarillo cigars_as_ranges_along_ref 
+#' @importFrom cigarillo cigar_extent_along_query 
+#' @importFrom cigarillo cigar_extent_along_ref
+#' @importFrom cigarillo explode_cigar_ops 
+#' @importFrom cigarillo explode_cigar_oplens
 #' @export
 readONTbam <- function(bamfile,
                        ref_gr      = NULL,
